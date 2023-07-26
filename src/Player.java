@@ -211,7 +211,13 @@ public class Player implements Human {
 	}
 	
 	public void moveField(ArrayList<Field> field) {
-		System.out.println("どこに移動しますか "):
-			
+		System.out.println("移動しますか 0: 移動する 1:移動しない");
+		int select = new java.util.Scanner(System.in).nextInt();
+		if(select ==0) {
+			System.out.println("どこに移動しますか>");
+			for(Field f : field) {
+				System.out.println(f.getName());
+			}
+		}
 	}
 }

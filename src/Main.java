@@ -119,6 +119,11 @@ public class Main {
 				t.townWalk(playerList, shopList, weapons, items);
 			}
 			
+			//マップ移動
+			if(console.equals("m")) {
+				playerList.get(0).moveField(fields);
+			}
+			
 			//シーン移動
 			if (textMain.get(i).contains("#")) {
 				String str = textMain.get(i).replace("#", "");
