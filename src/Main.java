@@ -137,11 +137,12 @@ public class Main {
 				String ec = textMain.get(i).replace("ec", "");
 				String[] ecs = ec.split(",");
 				int[] ecn = new int[2];
-				for (int j = 0; j < ecs.length; j++) {
-					ecn[j] = Integer.parseInt(ecs[j]);
+				for (int j = 1; j < ecs.length; j++) {
+					ecn[j - 1] = Integer.parseInt(ecs[j]);
 				}
 				ArrayList<String> strList = csvReader.csvReader("enemyList.csv");
 				createAdd.createAdd(ecn[0], ecn[1], enemyList, strList);
+				System.out.println(enemyList.get(1).getName());
 			}
 			
 			

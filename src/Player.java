@@ -242,12 +242,40 @@ public class Player implements Human {
 				System.out.println(i+ " : " +fields.get(i).getName());
 			}
 			int select2 = scan.nextInt();
-			if(fields.get(select2) instanceof Town){
-			System.out.println(fields.get(select2).getName() + "へ入りました\n");
-			}else System.out.println(fields.get(select2).getName() + "へ移動します\n");
-			//開発中表示
-						if(select2 == 1) System.out.println("開発中です\n");
+			//隣町開発中のための処置
+//			if(fields.get(select2) instanceof Town){
+//			System.out.println(fields.get(select2).getName() + "へ入りました\n");
+//
+			if(select2 == 0) {
+				System.out.println(fields.get(select2).getName() + "へ入りました\n");
+			}else if(select2 == 1) {
+				System.out.println("隣町に行くためには「王都周辺の道」を進む必要があります\n");
+				System.out.println(fields.get(2).getName() + "へ移動します\n");
+				MidField f = (MidField)fields.get(2);
+				moveField(f);
+			}else if(select2 == 2){
+				System.out.println(fields.get(select2).getName() + "へ移動します\n");
+				MidField f = (MidField)fields.get(select2);
+				moveField(f);
 			this.field = fields.get(select2);
+			}
 		}
+	}
+	
+	public void moveField(MidField mf){
+		int dis = mf.getDistance();
+		do {
+			System.out.println("あと" + dis + "で次の街に着きます");
+		int r = new java.util.Random().nextInt(6) + 1;
+		//バトル追加
+//		 if(r <= 2) {
+//			 battle();
+//		 }
+		dis -= r;
+		if(dis == 0) {
+			System.out.println("次の街に着きました\n開発中");
+			break;
+		}
+		}while(dis > 0);
 	}
 }

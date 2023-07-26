@@ -7,11 +7,12 @@ public class MidField extends Field {
 		this.setDistance(distance);
 	}
 	
-	public int getDistane() {
+	public int getDistance() {
 		return this.distance;
 	}
 	
 	public void setDistance(int distance) {
 		this.distance = distance;
 	}
+	
 }
