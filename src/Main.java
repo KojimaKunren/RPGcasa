@@ -46,8 +46,10 @@ public class Main {
 		ArrayList<Field> fields = new ArrayList<Field>();
 		Field field = new Field();
 		Town town1 = new Town("ギロッポンヌ");
+		Town town2 = new Town("モンブル");
 		fields.add(town1);
-		MidField midfield1 = new MidField("王都周辺", 30);
+		fields.add(town2);
+		MidField midfield1 = new MidField("王都周辺の道", 30);
 		fields.add(midfield1);
 		playerList.get(0).fields = fields;
 		

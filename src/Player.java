@@ -215,8 +215,8 @@ public class Player implements Human {
 		int select = new java.util.Scanner(System.in).nextInt();
 		if(select ==0) {
 			System.out.println("どこに移動しますか>");
-			for(Field f : field) {
-				System.out.println(f.getName());
+			for(int i = 0; i < field.size(); i++) {
+				System.out.println(i+ " : " +field.get(i).getName());
 			}
 		}
 	}
