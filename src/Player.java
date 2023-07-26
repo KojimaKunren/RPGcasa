@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player implements Human {
 	private String name;
@@ -16,6 +17,7 @@ public class Player implements Human {
 	Sword sword;
 	Armor armor;
 	Sield sield;
+	Field field;
 	ArrayList<Field> fields;
 	ArrayList<Item> items;
 	ArrayList<Weapon> weapons;
@@ -160,14 +162,22 @@ public class Player implements Human {
 
 	}
 	
-	public static String showStatus(Player player) {
-		return "プレイヤー名: " + player.getName() + " 職業: " + player.getRole() + "\nHP: " + player.getHp() + "/" + player.getFullhp()
-		+" MP: " + player.getMp() + "/" + player.getFullmp()	+ "\n攻撃力: "	+ player.getAtk() + " 防御力: " + player.getDef() + "\nレベル: "
-		+ player.getLevel() + " 経験値: " + player.getExp() + "\n"; 
+	public void showStatus() {
+		System.out.println( "プレイヤー名: " + this.getName() + " 職業: " + this.getRole() + "\nHP: " + this.getHp() + "/" + this.getFullhp()
+		+" MP: " + this.getMp() + "/" + this.getFullmp()	+ "\n攻撃力: "	+ this.getAtk() + " 防御力: " + this.getDef() + "\nレベル: "
+		+ this.getLevel() + " 経験値: " + this.getExp() + "\n" + "現在地: " + this.field.getName() + "\n"); 
 	}
 	
-	public static String showItem(Player player) {
-		return "財布: " + player.wallet + "\n";
+	public void showItem() {
+		System.out.println("財布：" + this.getWallet());
+		for(int i = 0; i < items.size(); i++) {
+			System.out.println(this.items.get(i).getName() +  "×" + this.items.get(i).getNum());
+		}
+		try {
+		System.out.println("Sword: " + this.sword.getName() + " Sield: " + this.sield.getName() + "\nArmor: " + this.armor.getName());
+		}catch(Exception e) {;}
+		System.out.println("");
+		
 	}
 	
 	public void payMoney(Player player, int money) {
@@ -192,16 +202,28 @@ public class Player implements Human {
 		if (player.items.get(0).getNum() != 0) {
 			System.out.print("誰にポーションを使いますか>");
 			int select = new java.util.Scanner(System.in).nextInt();
-			this.usePortion(playerList.get(select), portion);
-			player.items.get(0).setNum(player.items.get(0).getNum() - 1);
-			System.out.printf("%sのHPが回復しました。HP: %d\n\n",playerList.get(select).getName(), playerList.get(select).getHp());
+			if (playerList.get(select).getHp() < playerList.get(select).getFullhp()) {
+				this.usePortion(playerList.get(select), portion);
+				player.items.get(0).setNum(player.items.get(0).getNum() - 1);
+				System.out.printf("%sのHPが回復しました。HP: %d\n\n", playerList.get(select).getName(),
+						playerList.get(select).getHp());
+			} else if (playerList.get(select).getFullhp() >= playerList.get(select).getHp()) {
+				System.out.println("HPはフルです");
+			}
 		} else if (player.items.get(0).getNum() <= 0) {
 			System.out.println("ポーションがありません");
 		}
 	}
 
 	public void usePortion(Player player, Portion portion) {
-		player.setHp(player.getHp() + portion.getRecover());
+		int r =player.getHp() + portion.getRecover();
+		if(r < this.getFullhp()) {
+			player.setHp(player.getHp() + portion.getRecover());
+			System.out.println("HPが" + portion.getRecover() + "回復しました");
+		}else {
+			this.setHp(this.getFullhp());
+			System.out.println("HPがフルになりました\n");
+		}
 	}
 	
 	public boolean isDead() {
@@ -210,14 +232,22 @@ public class Player implements Human {
 	return isEnd;
 	}
 	
-	public void moveField(ArrayList<Field> field) {
+	public void moveField(ArrayList<Field> fields) {
+		Scanner scan = new Scanner(System.in);
 		System.out.println("移動しますか 0: 移動する 1:移動しない");
-		int select = new java.util.Scanner(System.in).nextInt();
+		int select = scan.nextInt();
 		if(select ==0) {
 			System.out.println("どこに移動しますか>");
-			for(int i = 0; i < field.size(); i++) {
-				System.out.println(i+ " : " +field.get(i).getName());
+			for(int i = 0; i < fields.size(); i++) {
+				System.out.println(i+ " : " +fields.get(i).getName());
 			}
+			int select2 = scan.nextInt();
+			if(fields.get(select2) instanceof Town){
+			System.out.println(fields.get(select2).getName() + "へ入りました\n");
+			}else System.out.println(fields.get(select2).getName() + "へ移動します\n");
+			//開発中表示
+						if(select2 == 1) System.out.println("開発中です\n");
+			this.field = fields.get(select2);
 		}
 	}
 }

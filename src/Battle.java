@@ -90,17 +90,19 @@ public class Battle {
 				break;
 				
 			case 4:
-				System.out.println(Player.showItem(player));
+				playerList.get(0).showItem();
 				player.usePortion(player, playerList, portion);
 				break;
 				
 			case 5:
-				System.out.println(Player.showStatus(player));
+				playerList.get(0).showStatus();
 				break;
 			
 			case 6:
 				System.out.println("退却した");
 				isEnd = true;
+				break;
+				
 			default:
 			}
 			

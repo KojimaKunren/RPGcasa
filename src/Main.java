@@ -45,12 +45,13 @@ public class Main {
 		//フィールド
 		ArrayList<Field> fields = new ArrayList<Field>();
 		Field field = new Field();
-		Town town1 = new Town("ギロッポンヌ");
-		Town town2 = new Town("モンブル");
+		Town town1 = new Town("王都ギロッポンヌ");
+		Town town2 = new Town("隣町モンブル");
 		fields.add(town1);
 		fields.add(town2);
 		MidField midfield1 = new MidField("王都周辺の道", 30);
 		fields.add(midfield1);
+		playerList.get(0).field = town1;
 		playerList.get(0).fields = fields;
 		
 		//アイテムリスト
@@ -58,11 +59,9 @@ public class Main {
 		Portion portion = new Portion("ポーション", 1, 1, 20, 10);
 		Portion hiportion = new HiPortion("ハイポーション", 5, 1, 100, 20);
 		BlessingWater blessingWater = new BlessingWater("祝福の水",3,1,50,15);
-		items.add(0, portion);
-		items.add(1, hiportion);
-		items.add(2, blessingWater);
 		
 		playerList.get(0).items = items;
+		playerList.get(0).items.add(portion);
 		
 		//武器リスト
 		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
@@ -78,10 +77,9 @@ public class Main {
 		ArrayList<Shop> shopList = new ArrayList<Shop>();
 		ArrayList<Weapon> shopWeaponList = new ArrayList<Weapon>();
 		ArrayList<Item>shopItemList = new ArrayList<Item>();
-		Inn inn = new Inn("宿屋「ニューイン」", 10);
-		shopList.add(0,inn);
-		shopList.add(1, new WeaponShop("武器屋「ディープヴァレイ」", shopWeaponList));
-		shopList.add(2, new Pharmacy("薬屋「センターガイ」", shopItemList));
+		shopList.add(0,	new Inn("モーテラの宿屋", 10));
+		shopList.add(1, new WeaponShop("ポンズの武器屋", shopWeaponList));
+		shopList.add(2, new Pharmacy("グッラーダの薬屋", shopItemList));
 		shopWeaponList.add(0, dagger);
 		shopItemList.add(0, portion);
 		shopItemList.add(1, hiportion);
@@ -108,11 +106,11 @@ public class Main {
 			
 			//ステータス表示
 			if(console.equals("s")) {
-				System.out.println(Player.showStatus(playerList.get(0)));
+				playerList.get(0).showStatus();
 			}
 			//アイテム表示
 			if(console.equals("i")) {
-				System.out.println(Player.showItem(playerList.get(0)));
+				playerList.get(0).showItem();
 			}
 			
 			//街内移動

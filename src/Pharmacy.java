@@ -25,7 +25,7 @@ public class Pharmacy extends Shop {
 	}
 
 	public void talk(ArrayList<Player> playerList, ArrayList<Item> itemList) {
-		System.out.println(this.getName() + "に入った\\n\\nやあ、調子はどうだい\n何か入り用かい");
+		System.out.println(this.getName() + "に入った\n\n薬屋のグッラーダ「やあ、調子はどう。何か入り用かい」");
 		System.out.println("0: 買い物をする 1: アイテムを売る 2: やめておく");
 		int select = scan.nextInt();
 		ArrayList<RecoveryItem> castPrice = new ArrayList<RecoveryItem>();
@@ -39,16 +39,16 @@ public class Pharmacy extends Shop {
 				castPrice.add( (RecoveryItem) this.items.get(i));
 				System.out.println(castPrice.get(i).getPrice());
 			}
-			System.out.println("薬屋のグラッド「何番を買う」>");
+			System.out.println("薬屋のグッラーダ「何番を買う」>");
 			int selectItem = scan.nextInt() - 1;
 			//購入数の取得
-			System.out.println("薬屋のグラッド「" + this.items.get(selectItem).getName() + "をいくつ必要なんだい」>");
+			System.out.println("薬屋のグッラーダ「" + this.items.get(selectItem).getName() + "をいくつ必要なんだい」>");
 			int itemNum = scan.nextInt();
 			//購入金額の表示および購入確認
 			int itemPrice = itemNum * castPrice.get(selectItem).getPrice();
-			System.out.println("薬屋のグラッド「" +
+			System.out.println("薬屋のグッラーダ「" +
 					this.items.get(selectItem).getName() + itemNum + "×" + castPrice.get(selectItem).getPrice()
-					+ "=" + itemPrice + "\nこれで良いかい」\n 0:買う　1:やめておく>");
+					+ "=" + itemPrice + " これで良いかい」\n 0:買う　1:やめておく>");
 			int confirmation = scan.nextInt();
 			//購入処理
 			if (confirmation == 0) {
@@ -56,44 +56,43 @@ public class Pharmacy extends Shop {
 				if (itemPrice <= playerList.get(0).getWallet()) {
 					playerList.get(0).setWallet(playerList.get(0).getWallet() - itemPrice);
 				} else if (itemPrice > playerList.get(0).getWallet()) {
-					System.out.println("武器屋のグラッド「足りないなら別のにしときな」\n");
+					System.out.println("武器屋のグッラーダ「足りないなら別のにしときな」\n");
 					continue;
 				}
 				//商品の処理;
 				boolean b = playerList.get(0).items.contains(this.items.get(itemNum).getName());
 				if (b) {
 					int a = playerList.get(0).items.indexOf(this.items.get(itemNum).getName());
-					playerList.get(0).items.get(a).setNum(playerList.get(0).items.get(selectItem).getNum() + itemNum);
+					playerList.get(0).items.get(a).setNum(playerList.get(0).items.get(a).getNum() + itemNum);
 				} else if (!b) {
-					playerList.get(0).items.add(this.items.get(itemNum));
+					playerList.get(0).items.add(this.items.get(selectItem));
 				}
 			} else {
 			}
-			System.out.println("薬屋のグラッド「ほかに何かいるかい」\n 0: 買い物を続ける 1: 店を出る>");
+			System.out.println("薬屋のグッラーダ「ほかに何かいるかい」\n 0: 買い物を続ける 1: 店を出る>");
 			int select2 = scan.nextInt();
-			if (select2 == 0)
-				continue;
+			if (select2 == 0);
 			else if (select2 == 1) {
-				System.out.println("薬屋のグラッド「使用上の注意をよく読んでな」\n");
+				System.out.println("薬屋のグッラーダ「使用上の注意をよく読んでな」\n");
 				break;
 			}
 		}
 			break;
 
 		case 1:
-			System.out.println("薬屋のグラッド「開発中だよ」");
-			System.out.println("薬屋のグラッド「ほかに何かいるかい」\n 0: 買い物を続ける 1: 店を出る>");
+			System.out.println("薬屋のグッラーダ「開発中だよ」");
+			System.out.println("薬屋のグッラーダ「ほかに何かいるかい」\n 0: 買い物を続ける 1: 店を出る>");
 			int select3 = scan.nextInt();
 			if (select3 == 0)
 				;
 			else if (select3 == 1) {
-				System.out.println("薬屋のグラッド「またね」\n");
+				System.out.println("薬屋のグッラーダ「またね」\n");
 				break;
 			}
 			break;
 
 		case 2:
-			System.out.println("薬屋のグラッド「命大事に」\n");
+			System.out.println("薬屋のグッラーダ「命大事にね」\n");
 		default:
 		}
 	}
