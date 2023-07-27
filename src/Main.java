@@ -106,7 +106,7 @@ public class Main {
 				continue;
 			}
 
-			//バトル用敵リスト作成
+			//バトル敵リスト作成
 			if (textMain.get(i).contains("ec")) {
 				String ec = textMain.get(i).replace("ec", "");
 				String[] ecs = ec.split(",");
@@ -115,6 +115,7 @@ public class Main {
 					ecn[j - 1] = Integer.parseInt(ecs[j]);
 				}
 				ArrayList<String> str2List = csvReader.csvReader("enemyList.csv");
+				ecn[0] = (ecn[0] -1) * 8;
 				createEnemy.createEnemy(ecn[0], ecn[1], enemyList, str2List);
 				ec = textMain.remove(i);
 			}
@@ -166,6 +167,15 @@ public class Main {
 
 			//マップ移動
 			if (console.equals("m")) {
+				ArrayList<String> str2List = csvReader.csvReader("enemyList.csv");
+				int[] nums = new int[4];
+				
+				nums[2] = new java.util.Random().nextInt(2) + 1 ;
+				nums[3] = new java.util.Random().nextInt(2) + 1;
+				nums[0] = 3; 
+				nums[1] = 4;
+				createEnemy.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
+				createEnemy.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
 				playerList.get(0).moveField(fields, battle, playerList.get(0), playerList, enemyList,
 						(Portion) items.get(0), levelUpList);
 			}

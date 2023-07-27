@@ -288,6 +288,7 @@ public class Player implements Human {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("移動しますか 0: 移動する 1:移動しない");
 		int select = scan.nextInt();
+
 		if(select ==0) {
 			System.out.println("どこに移動しますか>");
 			for(int i = 0; i < fields.size(); i++) {
@@ -297,7 +298,8 @@ public class Player implements Human {
 			//隣町開発中のための処置
 //			if(fields.get(select2) instanceof Town){
 //			System.out.println(fields.get(select2).getName() + "へ入りました\n");
-//
+			
+			
 			if(select2 == 0) {
 				System.out.println(fields.get(select2).getName() + "へ入りました\n");
 			}else if(select2 == 1) {
@@ -305,9 +307,12 @@ public class Player implements Human {
 				select = 0;
 			}else if(select2 == 2){
 				System.out.println(fields.get(select2).getName() + "へ移動します\n");
-				moveField((MidField)field,battle,player,playerList,enemyList,portion,levelUpList);
-			this.field = fields.get(select2);
 			}
+			if(fields.get(select2) instanceof MidField) {
+				moveField((MidField)field,battle,player,playerList,enemyList,portion,levelUpList);
+			}
+			this.field = fields.get(select2);
+			
 		}
 	}
 	

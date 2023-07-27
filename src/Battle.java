@@ -103,8 +103,8 @@ public class Battle {
 			}
 			
 			if(playerList.get(0).getHp() <= 0) {
-				isEnd = playerList.get(0).isDead();
 				System.out.println("戦闘に負けてしまった");
+				isEnd = playerList.get(0).isDead();
 			}
 			
 			for (int i = 0; i < enemies.size(); i++) {
