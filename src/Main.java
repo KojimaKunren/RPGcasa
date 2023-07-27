@@ -33,15 +33,9 @@ public class Main {
 
 		//武器仮置き
 //		playerList.get(0).sword = dagger;
-//		Armor leatherArmor = new LeatherArmor("皮の鎧",2, 2,10,15);
 //		playerList.get(0).armor = leatherArmor;
-//		Sield woodenSield = new WoodenSield("木の盾",2,2,5,5);
 //		playerList.get(0).sield = woodenSield;
 
-		//敵リスト
-//		CreateEnemy createEnemy = new CreateEnemy();
-//		createEnemy.createEnemies(enemies, enemyList);
-		
 		//フィールド
 		ArrayList<Field> fields = new ArrayList<Field>();
 		Field field = new Field();
@@ -67,6 +61,8 @@ public class Main {
 		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
 		playerList.get(0).weapons = weapons;
 		Sword dagger = new Dagger("ダガー", 1, 2, 2, 10);
+		Armor leatherArmor = new LeatherArmor("皮の鎧",2, 2,10,15);
+		Sield woodenSield = new WoodenSield("木の盾",2,2,5,5);
 		
 		//バトル
 		Battle battle = new Battle();
@@ -81,12 +77,14 @@ public class Main {
 		shopList.add(1, new WeaponShop("ポンズの武器屋", shopWeaponList));
 		shopList.add(2, new Pharmacy("グッラーダの薬屋", shopItemList));
 		shopWeaponList.add(0, dagger);
+		shopWeaponList.add(1, leatherArmor);
+		shopWeaponList.add(2, woodenSield);
 		shopItemList.add(0, portion);
 		shopItemList.add(1, hiportion);
 		shopItemList.add(2, blessingWater);
 		
 		
-		CreateAdd createAdd = new CreateAdd();
+		CreateEnemy createAdd = new CreateEnemy();
 		CsvReader csvReader = new CsvReader();
 
 		//Start
@@ -141,21 +139,32 @@ public class Main {
 					ecn[j - 1] = Integer.parseInt(ecs[j]);
 				}
 				ArrayList<String> strList = csvReader.csvReader("enemyList.csv");
-				createAdd.createAdd(ecn[0], ecn[1], enemyList, strList);
-				System.out.println(enemyList.get(1).getName());
+				createAdd.createEnemy(ecn[0], ecn[1], enemyList, strList);
+				ec = textMain.remove(i);
 			}
 			
 			
 			if (textMain.get(i).contains("btl")) {
-				battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0),levelUpList);
+				battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
 				playerList.get(0).setHp(battle.getPlayerDmg());
-//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-				if(playerList.get(0).getHp() <= 0) {
+				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+				if (playerList.get(0).getHp() <= 0) {
 					return;
 				}
-
 			}
 			
+			if (playerList.get(0).field instanceof MidField) {
+				MidField m = (MidField) playerList.get(0).field;
+				int r = playerList.get(0).moveField(m);
+				if (r <= 2) {
+					battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
+					playerList.get(0).setHp(battle.getPlayerDmg());
+					//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+					if (playerList.get(0).getHp() <= 0) {
+						return;
+					}
+				}
+			}
 			
 			System.out.println(textMain.get(i) + "↲");
 			//テキスト行間用

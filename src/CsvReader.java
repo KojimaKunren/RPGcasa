@@ -19,14 +19,12 @@ public class CsvReader {
 	while((line = br.readLine()) != null) {
 		list.add(line);
 	}
-	for(int i = 0; i < list.size();i++) {
-		System.out.println(list.get(i));
-	}
 		
 	for(int i = 0; i < list .size(); i++) {
-		String[] str = list.get(i).split(",");
-		list2.add(i,str[i]);
-		System.out.println(str[i]);
+		String[] str =list.get(i).split(",");
+		for(int j = 0; j < str.length; j++) {
+			list2.add(str[j]);
+			}
 		}
 	return list2;
 	}

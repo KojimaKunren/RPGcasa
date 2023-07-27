@@ -29,10 +29,7 @@ public class Battle {
 						this.playerDmg = player.getHp();
 					}else if(selectAttack == 2) {
 						int r = new java.util.Random().nextInt(enemies.size());
-						enemies.get(r).setHp(Player.attack(player, enemies.get(r)));
-						this.enemyDmg = enemies.get(r).getHp();
-						enemies.get(r).setHp(Player.attack(player, enemies.get(r)));
-						this.enemyDmg = enemies.get(r).getHp();
+						enemies.get(r).setHp(Player.specialAttack(player, enemies.get(r)));
 						this.enemyDmg = enemies.get(r).getHp();
 						player.setHp(Enemy.attack(enemies.get(r), player));
 						this.playerDmg = player.getHp();
@@ -40,7 +37,7 @@ public class Battle {
 					
 					System.out.printf("%s HP%d MP%d\n",player.getName(), player.getHp(), player.getMp());
 					for(int i = 0; i < enemies.size(); i++) {
-					System.out.printf("%s HP%d\n\n",enemies.get(i).getName(), enemies.get(i).getHp());
+					System.out.printf("%s HP%d\n",enemies.get(i).getName(), enemies.get(i).getHp());
 					}
 			break;
 			
@@ -108,13 +105,16 @@ public class Battle {
 			
 			if(playerList.get(0).getHp() <= 0) {
 				isEnd = playerList.get(0).isDead();
+				System.out.println("戦闘に負けてしまった");
 			}
 			
 			for (int i = 0; i < enemies.size(); i++) {
 				if (enemies.get(i).getHp() <= 0) {
+					System.out.println(enemies.get(i).getName() + "を倒した");
 					int total = 0;
 					total++;
 					if (total == enemies.size()) {
+						System.out.println("戦闘に勝利した");
 						isEnd = enemies.get(i).isDead();
 					}
 				}

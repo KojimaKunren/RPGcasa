@@ -1,8 +1,8 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CreateEnemy {
-	public void createEnemy(int num, int num2, ArrayList<Enemy> enemies, ArrayList<String> getList)throws IOException {
+public class CreateAdd {
+	public void createAdd(int num, int num2, ArrayList<Enemy> enemies, ArrayList<String> getList)throws IOException {
 		int[] nums = new int[7];
 		for(int i = 0; i < num2; i++) {
 		String str = getList.get(num) + (i + 1);
@@ -15,4 +15,3 @@ public class CreateEnemy {
 		}
 	}
 }
-

@@ -153,6 +153,27 @@ public class Player implements Human {
 		}
 		return enemy.getHp();
 	}
+	
+	public static int specialAttack(Player player,Enemy enemy) {
+		int dmg = 0;
+		if(player.getMp() >= 10) {
+			if (player.sword == null) {
+				dmg = (player.getAtk() * 2) - enemy.getDef();
+				player.setMp(player.getMp() - 10);
+			} else {
+				dmg = ((player.getAtk() + player.sword.getPower()) * 2) - enemy.getDef();
+				player.setMp(player.getMp() - 10);
+			}
+
+		
+		int value = new java.util.Random().nextInt(6);
+		
+		if (value != 0 && dmg > 0) {
+			enemy.setHp(enemy.getHp() - dmg);
+			}
+		}else System.out.println("MPが足りません");
+		return enemy.getHp();
+	}
 
 	public int talk(String name) {
 		System.out.println(name + "に話しかけますか");
@@ -198,24 +219,29 @@ public class Player implements Human {
 			System.out.println("アイテムがありません");
 	}
 					
+	//ポーション利用メソッド
+	//※※マジックナンバー利用
 	public void usePortion(Player player, ArrayList<Player> playerList, Portion portion) {
-		if (player.items.get(0).getNum() != 0) {
+		if (playerList.get(0).items.get(0).getNum() != 0) {
 			System.out.print("誰にポーションを使いますか>");
+			for(int i = 0; i < playerList.size(); i ++){
+				System.out.println(playerList.get(i).getName());
+			}
 			int select = new java.util.Scanner(System.in).nextInt();
 			if (playerList.get(select).getHp() < playerList.get(select).getFullhp()) {
-				this.usePortion(playerList.get(select), portion);
-				player.items.get(0).setNum(player.items.get(0).getNum() - 1);
+				this.recoveryPortion(playerList.get(select), portion);
+				playerList.get(0).items.get(0).setNum(playerList.get(0).items.get(0).getNum() - 1);
 				System.out.printf("%sのHPが回復しました。HP: %d\n\n", playerList.get(select).getName(),
 						playerList.get(select).getHp());
 			} else if (playerList.get(select).getFullhp() >= playerList.get(select).getHp()) {
 				System.out.println("HPはフルです");
 			}
-		} else if (player.items.get(0).getNum() <= 0) {
+		} else if (playerList.get(0).items.get(0).getNum() <= 0) {
 			System.out.println("ポーションがありません");
 		}
 	}
 
-	public void usePortion(Player player, Portion portion) {
+	public void recoveryPortion(Player player, Portion portion) {
 		int r =player.getHp() + portion.getRecover();
 		if(r < this.getFullhp()) {
 			player.setHp(player.getHp() + portion.getRecover());
@@ -232,6 +258,7 @@ public class Player implements Human {
 	return isEnd;
 	}
 	
+	//フィールド移動メソッド
 	public void moveField(ArrayList<Field> fields) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("移動しますか 0: 移動する 1:移動しない");
@@ -249,33 +276,28 @@ public class Player implements Human {
 			if(select2 == 0) {
 				System.out.println(fields.get(select2).getName() + "へ入りました\n");
 			}else if(select2 == 1) {
-				System.out.println("隣町に行くためには「王都周辺の道」を進む必要があります\n");
-				System.out.println(fields.get(2).getName() + "へ移動します\n");
-				MidField f = (MidField)fields.get(2);
-				moveField(f);
+				System.out.println("開発中です\n王都ギロッポンヌに戻ります\n");
+				select = 0;
 			}else if(select2 == 2){
 				System.out.println(fields.get(select2).getName() + "へ移動します\n");
-				MidField f = (MidField)fields.get(select2);
-				moveField(f);
 			this.field = fields.get(select2);
 			}
 		}
 	}
 	
-	public void moveField(MidField mf){
+	//フィールド移動中のメソッド
+	public int moveField(MidField mf){
 		int dis = mf.getDistance();
+		int r =0;
 		do {
 			System.out.println("あと" + dis + "で次の街に着きます");
-		int r = new java.util.Random().nextInt(6) + 1;
-		//バトル追加
-//		 if(r <= 2) {
-//			 battle();
-//		 }
+		r = new java.util.Random().nextInt(6) + 1;
 		dis -= r;
 		if(dis == 0) {
 			System.out.println("次の街に着きました\n開発中");
 			break;
 		}
 		}while(dis > 0);
+		return r;
 	}
 }
