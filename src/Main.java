@@ -31,6 +31,10 @@ public class Main {
 		CreatePlayer createPlayer = new CreatePlayer();
 		createPlayer.createPlayers(players, playerList);
 
+		//敵リスト
+		ArrayList<String> enemies = new ArrayList<String>();
+		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
+		
 		//武器仮置き
 //		playerList.get(0).sword = dagger;
 //		playerList.get(0).armor = leatherArmor;
@@ -98,7 +102,32 @@ public class Main {
 			if(textMain.get(i).contains("pn")) {
 				System.out.println(textMain.get(i).replace("pn",playerList.get(0).getName()) + "↲");
 				continue;
+				
+				//敵作成
+				if (textMain.get(i).contains("ec")) {
+					String ec = textMain.get(i).replace("ec", "");
+					String[] ecs = ec.split(",");
+					int[] ecn = new int[2];
+					for (int j = 1; j < ecs.length; j++) {
+						ecn[j - 1] = Integer.parseInt(ecs[j]);
+					}
+					ArrayList<String> strList = csvReader.csvReader("enemyList.csv");
+					createAdd.createEnemy(ecn[0], ecn[1], enemyList, strList);
+					ec = textMain.remove(i);
+				}
+				
+				
+				if (textMain.get(i).contains("btl")) {
+					battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
+					playerList.get(0).setHp(battle.getPlayerDmg());
+					//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+					if (playerList.get(0).getHp() <= 0) {
+						return;
+					}
+					enemyList.clear();
+				}
 			}
+			
 			//コンソール表示入力
 			String console = scan.nextLine();
 			
@@ -119,7 +148,7 @@ public class Main {
 			
 			//マップ移動
 			if(console.equals("m")) {
-				playerList.get(0).moveField(fields);
+				playerList.get(0).moveField(fields,playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
 			}
 			
 			//シーン移動
@@ -128,30 +157,6 @@ public class Main {
 				i = Integer.parseInt(str);
 			} 
 			
-			//敵作成
-			ArrayList<String> enemies = new ArrayList<String>();
-			ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
-			if (textMain.get(i).contains("ec")) {
-				String ec = textMain.get(i).replace("ec", "");
-				String[] ecs = ec.split(",");
-				int[] ecn = new int[2];
-				for (int j = 1; j < ecs.length; j++) {
-					ecn[j - 1] = Integer.parseInt(ecs[j]);
-				}
-				ArrayList<String> strList = csvReader.csvReader("enemyList.csv");
-				createAdd.createEnemy(ecn[0], ecn[1], enemyList, strList);
-				ec = textMain.remove(i);
-			}
-			
-			
-			if (textMain.get(i).contains("btl")) {
-				battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
-				playerList.get(0).setHp(battle.getPlayerDmg());
-				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-				if (playerList.get(0).getHp() <= 0) {
-					return;
-				}
-			}
 			
 			if (playerList.get(0).field instanceof MidField) {
 				MidField m = (MidField) playerList.get(0).field;
