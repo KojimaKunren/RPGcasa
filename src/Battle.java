@@ -87,8 +87,7 @@ public class Battle {
 				break;
 				
 			case 4:
-				playerList.get(0).showItem();
-				player.usePortion(player, playerList, portion);
+				playerList.get(0).showItem(player, playerList, portion);
 				break;
 				
 			case 5:

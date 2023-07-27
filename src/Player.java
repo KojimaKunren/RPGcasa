@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -34,7 +35,6 @@ public class Player implements Human {
 		setDef(def);
 		setExp(exp);
 		setLevel(level);
-		setMoney(money);
 		setWallet(this.getWallet() + money);
 	}
 	
@@ -137,7 +137,8 @@ public class Player implements Human {
 	public Weapon getSword() {
 		return this.sword;
 	}
-		
+	
+	//通常攻撃メソッド
 	public static int attack(Player player,Enemy enemy) {
 		int dmg = 0;
 		if(player.sword == null) {
@@ -154,6 +155,7 @@ public class Player implements Human {
 		return enemy.getHp();
 	}
 	
+	//特殊攻撃メソッド
 	public static int specialAttack(Player player,Enemy enemy) {
 		int dmg = 0;
 		if(player.getMp() >= 10) {
@@ -174,7 +176,8 @@ public class Player implements Human {
 		}else System.out.println("MPが足りません");
 		return enemy.getHp();
 	}
-
+	
+	//会話メソッド
 	public int talk(String name) {
 		System.out.println(name + "に話しかけますか");
 		System.out.print("0 : 話しかける\t1 : やめておく");
@@ -183,22 +186,44 @@ public class Player implements Human {
 
 	}
 	
+	//ステータス表示メソッド
 	public void showStatus() {
 		System.out.println( "プレイヤー名: " + this.getName() + " 職業: " + this.getRole() + "\nHP: " + this.getHp() + "/" + this.getFullhp()
 		+" MP: " + this.getMp() + "/" + this.getFullmp()	+ "\n攻撃力: "	+ this.getAtk() + " 防御力: " + this.getDef() + "\nレベル: "
 		+ this.getLevel() + " 経験値: " + this.getExp() + "\n" + "現在地: " + this.field.getName() + "\n"); 
 	}
 	
-	public void showItem() {
+	//アイテム表示メソッド
+	public void showItem(Player player,ArrayList<Player> playerList, Portion portion) {
 		System.out.println("財布：" + this.getWallet());
 		for(int i = 0; i < items.size(); i++) {
-			System.out.println(this.items.get(i).getName() +  "×" + this.items.get(i).getNum());
+			System.out.println((i + 1) + ": " + this.items.get(i).getName() +  "×" + this.items.get(i).getNum());
 		}
-		try {
-		System.out.println("Sword: " + this.sword.getName() + " Sield: " + this.sield.getName() + "\nArmor: " + this.armor.getName());
-		}catch(Exception e) {;}
+		System.out.println("使うアイテムの番号を入力してください。使わない場合は「0」を入力>");
+		int select = new java.util.Scanner(System.in).nextInt();
+		if (items.get(select) instanceof Portion) {
+			player.usePortion(player, playerList, portion);
+		}
 		System.out.println("");
 		
+	}
+	
+	//装備品表示メソッド
+	public void showWeapon() {
+		for(int i = 0; i < weapons.size(); i++) {
+			System.out.println((i + 1) + ": " + this.weapons.get(i).getName() + "×" + this.weapons.get(i).getNum());
+		}
+		System.out.println("装備する武器の番号を入力してください。使わない場合は「0」を入力>");
+		int select = new java.util.Scanner(System.in).nextInt();
+		
+		if (weapons.get(select) instanceof Sword) {
+			this.sword = (Sword)weapons.get(select);
+		}else if (weapons.get(select) instanceof Sield) {
+			this.sield = (Sield)weapons.get(select);
+		}else 	if (weapons.get(select) instanceof Armor) {
+			this.armor = (Armor)weapons.get(select);
+		}else {}
+		System.out.println("");
 	}
 	
 	public void payMoney(Player player, int money) {
@@ -259,7 +284,7 @@ public class Player implements Human {
 	}
 	
 	//フィールド移動メソッド
-	public void moveField(ArrayList<Field> fields) {
+	public void moveField(ArrayList<Field> fields,Battle battle,Player player, ArrayList<Player> playerList, ArrayList<Enemy> enemyList,Portion  portion, ArrayList<String> levelUpList) throws IOException{
 		Scanner scan = new Scanner(System.in);
 		System.out.println("移動しますか 0: 移動する 1:移動しない");
 		int select = scan.nextInt();
@@ -280,24 +305,34 @@ public class Player implements Human {
 				select = 0;
 			}else if(select2 == 2){
 				System.out.println(fields.get(select2).getName() + "へ移動します\n");
+				moveField((MidField)field,battle,player,playerList,enemyList,portion,levelUpList);
 			this.field = fields.get(select2);
 			}
 		}
 	}
 	
 	//フィールド移動中のメソッド
-	public int moveField(MidField mf){
+	public int moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, ArrayList<Enemy> enemyList,Portion  portion, ArrayList<String> levelUpList)throws IOException{
 		int dis = mf.getDistance();
-		int r =0;
+		int r = 0;
 		do {
 			System.out.println("あと" + dis + "で次の街に着きます");
-		r = new java.util.Random().nextInt(6) + 1;
-		dis -= r;
-		if(dis == 0) {
-			System.out.println("次の街に着きました\n開発中");
-			break;
-		}
-		}while(dis > 0);
+			r = new java.util.Random().nextInt(6) + 1;
+			if (r <= 2) {
+				battle.battle(player, playerList, enemyList, portion, levelUpList);
+				playerList.get(0).setHp(battle.getPlayerDmg());
+				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+				if (playerList.get(0).getHp() <= 0) {
+//					return;
+				} else {
+				}
+			}
+			dis -= r;
+			if (dis == 0) {
+				System.out.println("次の街に着きました\n開発中");
+				break;
+			}
+		} while (dis > 0);
 		return r;
 	}
 }

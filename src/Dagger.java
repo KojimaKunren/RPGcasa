@@ -1,20 +1,12 @@
 
 public class Dagger extends Sword{
-	private int price;
 	
-	public Dagger(String name, int rarity, int level, int power, int price) {
+	public Dagger(String name, int num, int rarity, int level, int price, int power) {
 		super.setName(name);
+		super.setNum(num);
 		super.setRarity(rarity);
 		super.setLevel(level);
+		super.setPrice(price);
 		super.setPower(power);
-		setPrice(price);
-	}
-	
-	public int getPrice() {
-		return this.price;
-	}
-	
-	public void setPrice(int price) {
-		this.price = price;
 	}
 }

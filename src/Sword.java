@@ -2,10 +2,12 @@
 public class Sword extends Weapon {
 	private int power;
 	
-	public void Sword(String name, int rarity, int level, int power) {
+	public void Sword(String name, int num, int rarity, int level, int price, int power) {
 		super.setName(name);
+		super.setNum(num);
 		super.setRarity(rarity);
 		super.setLevel(level);
+		super.setPrice(price);
 		setPower(power);
 	}
 	

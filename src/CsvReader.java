@@ -26,6 +26,6 @@ public class CsvReader {
 			list2.add(str[j]);
 			}
 		}
-	return list2;
+return list2;
 	}
 }
