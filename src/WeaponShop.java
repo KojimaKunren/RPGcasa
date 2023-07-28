@@ -25,6 +25,7 @@ public class WeaponShop extends Shop {
 
 	public void talk(ArrayList<Player> playerList, ArrayList<Weapon> weaponList) {
 		System.out.println(this.getName() + "に入った\n\n武器屋のポンズ「やあ、調子はどうだい」\n「何か入り用かい」\n");
+		do {
 		System.out.println("0: 買い物をする 1: アイテムを売る 2: やめておく");
 		int select = scan.nextInt();
 		switch (select) {
@@ -94,6 +95,8 @@ public class WeaponShop extends Shop {
 		case 2:
 			System.out.println("武器屋のポンズ「また来るまで死ぬんじゃないよ」\n");
 		default:
-		}
+			System.out.printf("正しい番号を入力してください");
+			}
+		}while(!true);
 	}
 }

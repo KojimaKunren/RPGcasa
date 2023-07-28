@@ -156,7 +156,7 @@ public class Main {
 			
 			//装備品表示
 			if (console.equals("w")) {
-				playerList.get(0).showWeapon();
+				playerList.get(0).showWeapon(playerList);
 			}
 			
 			//街内移動
@@ -167,17 +167,9 @@ public class Main {
 
 			//マップ移動
 			if (console.equals("m")) {
-				ArrayList<String> str2List = csvReader.csvReader("enemyList.csv");
-				int[] nums = new int[4];
-				
-				nums[2] = new java.util.Random().nextInt(2) + 1 ;
-				nums[3] = new java.util.Random().nextInt(2) + 1;
-				nums[0] = 3; 
-				nums[1] = 4;
-				createEnemy.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
-				createEnemy.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
-				playerList.get(0).moveField(fields, battle, playerList.get(0), playerList, enemyList,
+				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList,csvReader, createEnemy, enemyList, 
 						(Portion) items.get(0), levelUpList);
+				if(isDead) return;
 			}
 
 			//シーン移動

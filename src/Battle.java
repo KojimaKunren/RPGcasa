@@ -36,7 +36,7 @@ public class Battle {
 						this.playerDmg = playerList.get(i).getHp();
 						}
 					
-					System.out.printf("*%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
+					System.out.printf("♠%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
 					for(int j = 0; j < enemies.size(); j++) {
 					System.out.printf(" *%s HP%d ",enemies.get(j).getName(), enemies.get(j).getHp());
 					}
@@ -63,7 +63,7 @@ public class Battle {
 					break;}
 				}
 
-				System.out.printf("*%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
+				System.out.printf("♠%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
 				for(int j = 0; j < enemies.size(); j++) {
 					System.out.printf(" *%s HP%d\n\n",enemies.get(j).getName(), enemies.get(j).getHp());
 					}
@@ -77,7 +77,7 @@ public class Battle {
 				if(def >= 0) {
 					playerList.get(i).setHp(playerList.get(i).getHp() - def);
 					this.playerDmg = playerList.get(i).getHp();
-					System.out.printf("*%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
+					System.out.printf("♠%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
 					for(int j = 0; j < enemies.size(); j++) {
 						System.out.printf(" *%s HP%d\n\n",enemies.get(j).getName(), enemies.get(j).getHp());
 						}
@@ -100,6 +100,7 @@ public class Battle {
 				break loop;
 				
 			default:
+				System.out.printf("別の番号を入力してください>");
 			}
 			
 			if(playerList.get(0).getHp() <= 0) {

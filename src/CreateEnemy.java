@@ -18,7 +18,9 @@ public class CreateEnemy {
 	public void randomCreateEnemy(int enemyNum, int totalNum, ArrayList<Enemy> enemies, ArrayList<String> getList)throws IOException{
 		int[] nums = new int[7];
 		for(int i = 0; i < totalNum; i++) {
-		String str = getList.get(enemyNum) + (i + 1);
+			enemyNum -= 1;
+			enemyNum *= 8;
+		String str = getList.get(enemyNum);
 		for(int j = 1; j < 7; j++) {
 			nums[j -1] = Integer.parseInt(getList.get(enemyNum + j));
 		}
