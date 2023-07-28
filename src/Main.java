@@ -120,17 +120,6 @@ public class Main {
 				ec = textMain.remove(i);
 			}
 
-			//バトル実行
-			if (textMain.get(i).contains("btl")) {
-				battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
-				playerList.get(0).setHp(battle.getPlayerDmg());
-				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-				if (playerList.get(0).getHp() <= 0) {
-					return;
-				}
-				enemyList.clear();
-			}
-			
 			//味方作成
 			if(textMain.get(i).contains("pc")) {
 				String pc = textMain.get(i).replace("pc", "");
@@ -139,6 +128,17 @@ public class Main {
 				createPlayer.createPlayer(pcn,playerList, strList4);
 				textMain.remove(i);
 				continue;
+			}
+			
+			//バトル実行
+			if (textMain.get(i).contains("btl")) {
+				battle.battle( playerList, enemyList, (Portion) items.get(0), levelUpList);
+				playerList.get(0).setHp(battle.getPlayerDmg());
+				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+				if (playerList.get(0).getHp() <= 0) {
+					return;
+				}
+				enemyList.clear();
 			}
 
 			//コンソール表示入力
@@ -151,7 +151,7 @@ public class Main {
 			
 			//アイテム表示
 			if (console.equals("i")) {
-				playerList.get(0).showItem(playerList.get(0), playerList, portion);
+				playerList.get(0).showItem(playerList, portion);
 			}
 			
 			//装備品表示

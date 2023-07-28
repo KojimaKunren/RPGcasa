@@ -152,6 +152,7 @@ public class Player implements Human {
 		if (value != 0 && dmg > 0) {
 			enemy.setHp(enemy.getHp() - dmg);
 		}
+		System.out.printf("%sに%dのダメージを与えた\n\n",enemy.getName(),dmg);
 		return enemy.getHp();
 	}
 	
@@ -174,6 +175,7 @@ public class Player implements Human {
 			enemy.setHp(enemy.getHp() - dmg);
 			}
 		}else System.out.println("MPが足りません");
+		System.out.printf("%sに%dのダメージを与えた\n\n",enemy.getName(),dmg);
 		return enemy.getHp();
 	}
 	
@@ -194,7 +196,7 @@ public class Player implements Human {
 	}
 	
 	//アイテム表示メソッド
-	public void showItem(Player player,ArrayList<Player> playerList, Portion portion) {
+	public void showItem(ArrayList<Player> playerList, Portion portion) {
 		System.out.println("財布：" + this.getWallet());
 		for(int i = 0; i < items.size(); i++) {
 			System.out.println((i + 1) + ": " + this.items.get(i).getName() +  "×" + this.items.get(i).getNum());
@@ -202,7 +204,7 @@ public class Player implements Human {
 		System.out.println("使うアイテムの番号を入力してください。使わない場合は「0」を入力>");
 		int select = new java.util.Scanner(System.in).nextInt();
 		if (items.get(select) instanceof Portion) {
-			player.usePortion(player, playerList, portion);
+			playerList.get(0).usePortion(playerList, portion);
 		}
 		System.out.println("");
 		
@@ -246,7 +248,7 @@ public class Player implements Human {
 					
 	//ポーション利用メソッド
 	//※※マジックナンバー利用
-	public void usePortion(Player player, ArrayList<Player> playerList, Portion portion) {
+	public void usePortion(ArrayList<Player> playerList, Portion portion) {
 		if (playerList.get(0).items.get(0).getNum() != 0) {
 			System.out.print("誰にポーションを使いますか>");
 			for(int i = 0; i < playerList.size(); i ++){
@@ -321,14 +323,15 @@ public class Player implements Human {
 		int dis = mf.getDistance();
 		int r = 0;
 		do {
-			System.out.println("あと" + dis + "で次の街に着きます");
+			System.out.println("あと" + dis + "で次の街に着きます。サイコロを振ってください>");
+			System.out.println("");			
 			r = new java.util.Random().nextInt(6) + 1;
 			if (r <= 2) {
-				battle.battle(player, playerList, enemyList, portion, levelUpList);
+				battle.battle(playerList, enemyList, portion, levelUpList);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if (playerList.get(0).getHp() <= 0) {
-//					return;
+					//					return;
 				} else {
 				}
 			}

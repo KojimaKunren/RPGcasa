@@ -98,6 +98,7 @@ public class Enemy implements Human  {
 		if(dmg > 0) {
 		player.setHp(player.getHp() - dmg);
 		}
+		System.out.printf("%Sは%dのダメージを受けた\n\n",player.getName(),dmg);
 		return player.getHp();
 	}
 	

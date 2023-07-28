@@ -9,62 +9,63 @@ public class Battle {
 	private int playerDmg;
 	private int enemyDmg;
 	
-	public void battle(Player player, ArrayList<Player> playerList, ArrayList<Enemy> enemies, Portion portion, ArrayList<String> levelUpList) throws IOException{
+	public void battle(ArrayList<Player> playerList, ArrayList<Enemy> enemies, Portion portion, ArrayList<String> levelUpList) throws IOException{
 		Scanner scan = new java.util.Scanner(System.in);
 		boolean isEnd = false;
 		
+		loop:
 		do {
-			System.out.printf("1:攻撃 2;魔法 3:防御 4:アイテム 5:ステータス 6:退却>");
+			System.out.printf("\n\n1:攻撃 2;魔法 3:防御 4:アイテム 5:ステータス 6:退却>");
 			int select = scan.nextInt();
-			
+			for(int i = 0; i < playerList.size(); i++) {
 			switch(select) {
 			case 1:
 				System.out.printf("1:通常攻撃 2:特殊攻撃>");
 				int selectAttack = scan.nextInt();
 					if(selectAttack == 1) {
 						int r = new java.util.Random().nextInt(enemies.size());
-						enemies.get(r).setHp(Player.attack(player, enemies.get(r)));
+						enemies.get(r).setHp(Player.attack(playerList.get(i), enemies.get(r)));
 						this.enemyDmg = enemies.get(r).getHp();
-						player.setHp(Enemy.attack(enemies.get(r), player));
-						this.playerDmg = player.getHp();
+						playerList.get(i).setHp(Enemy.attack(enemies.get(r), playerList.get(i)));
+						this.playerDmg = playerList.get(i).getHp();
 					}else if(selectAttack == 2) {
 						int r = new java.util.Random().nextInt(enemies.size());
-						enemies.get(r).setHp(Player.specialAttack(player, enemies.get(r)));
+						enemies.get(r).setHp(Player.specialAttack(playerList.get(i), enemies.get(r)));
 						this.enemyDmg = enemies.get(r).getHp();
-						player.setHp(Enemy.attack(enemies.get(r), player));
-						this.playerDmg = player.getHp();
+						playerList.get(i).setHp(Enemy.attack(enemies.get(r), playerList.get(i)));
+						this.playerDmg = playerList.get(i).getHp();
 						}
 					
-					System.out.printf("%s HP%d MP%d\n",player.getName(), player.getHp(), player.getMp());
-					for(int i = 0; i < enemies.size(); i++) {
-					System.out.printf("%s HP%d\n",enemies.get(i).getName(), enemies.get(i).getHp());
+					System.out.printf("*%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
+					for(int j = 0; j < enemies.size(); j++) {
+					System.out.printf(" *%s HP%d ",enemies.get(j).getName(), enemies.get(j).getHp());
 					}
 			break;
 			
 			case 2:
-				if(player.getMp() > 0) {
+				if(playerList.get(i).getMp() > 0) {
 					System.out.printf("1:通常魔法 2:特殊魔法>");
 					int selectMagic = scan.nextInt();
 					if(selectMagic == 1) {
-						if(player.getMp() >= 5) {
+						if(playerList.get(i).getMp() >= 5) {
 						System.out.println("魔法攻撃");
 						int r= new java.util.Random().nextInt(enemies.size());
 						enemies.get(r).setHp(enemies.get(r).getHp() - 5);
-						player.setMp(player.getMp() - 5);
-						player.setHp(Enemy.attack(enemies.get(r), player));
-						System.out.printf("%s HP%d MP%d\n",player.getName(), player.getHp(), player.getMp());
+						playerList.get(i).setMp(playerList.get(i).getMp() - 5);
+						playerList.get(i).setHp(Enemy.attack(enemies.get(r), playerList.get(i)));
+						System.out.printf("%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
 						System.out.printf("%s HP%d\n\n",enemies.get(r).getName(), enemies.get(r).getHp());
 						this.enemyDmg = enemies.get(r).getHp();
-						this.playerDmg = player.getHp();
-						}else if(player.getMp() < 5) {System.out.println("MPが足りません");}					
-				}else if(player.getMp() <= 0) {
+						this.playerDmg = playerList.get(i).getHp();
+						}else if(playerList.get(i).getMp() < 5) {System.out.println("MPが足りません");}					
+				}else if(playerList.get(i).getMp() <= 0) {
 					System.out.println("MPが足りません\n");
 					break;}
 				}
 
-				System.out.printf("%s HP%d MP%d\n",player.getName(), player.getHp(), player.getMp());
-				for(int i = 0; i < enemies.size(); i++) {
-					System.out.printf("%s HP%d\n\n",enemies.get(i).getName(), enemies.get(i).getHp());
+				System.out.printf("*%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
+				for(int j = 0; j < enemies.size(); j++) {
+					System.out.printf(" *%s HP%d\n\n",enemies.get(j).getName(), enemies.get(j).getHp());
 					}
 				System.out.println("");
 				break;
@@ -72,13 +73,13 @@ public class Battle {
 			case 3:
 				System.out.println("防御している");
 				int r = new java.util.Random().nextInt(enemies.size());
-				int def = enemies.get(r).getAtk() - (player.getDef() * 2);
+				int def = enemies.get(r).getAtk() - (playerList.get(i).getDef() * 2);
 				if(def >= 0) {
-					player.setHp(player.getHp() - def);
-					this.playerDmg = player.getHp();
-					System.out.printf("%s HP%d MP%d\n",player.getName(), player.getHp(), player.getMp());
-					for(int i = 0; i < enemies.size(); i++) {
-						System.out.printf("%s HP%d\n\n",enemies.get(i).getName(), enemies.get(i).getHp());
+					playerList.get(i).setHp(playerList.get(i).getHp() - def);
+					this.playerDmg = playerList.get(i).getHp();
+					System.out.printf("*%s HP%d MP%d\n",playerList.get(i).getName(), playerList.get(i).getHp(), playerList.get(i).getMp());
+					for(int j = 0; j < enemies.size(); j++) {
+						System.out.printf(" *%s HP%d\n\n",enemies.get(j).getName(), enemies.get(j).getHp());
 						}
 				}else if(def < 0) ;
 				this.playerDmg = 0;
@@ -87,7 +88,7 @@ public class Battle {
 				break;
 				
 			case 4:
-				playerList.get(0).showItem(player, playerList, portion);
+				playerList.get(0).showItem(playerList, portion);
 				break;
 				
 			case 5:
@@ -96,29 +97,28 @@ public class Battle {
 			
 			case 6:
 				System.out.println("退却した");
-				isEnd = true;
-				break;
+				break loop;
 				
 			default:
 			}
 			
 			if(playerList.get(0).getHp() <= 0) {
-				System.out.println("戦闘に負けてしまった");
+				System.out.println("\n戦闘に負けてしまった");
 				isEnd = playerList.get(0).isDead();
 			}
 			
-			for (int i = 0; i < enemies.size(); i++) {
+			for (int j = 0; j < enemies.size(); j++) {
 				if (enemies.get(i).getHp() <= 0) {
-					System.out.println(enemies.get(i).getName() + "を倒した");
+					System.out.println(enemies.get(j).getName() + "を倒した");
 					int total = 0;
 					total++;
 					if (total == enemies.size()) {
-						System.out.println("戦闘に勝利した");
-						isEnd = enemies.get(i).isDead();
+						System.out.println("\n戦闘に勝利した");
+						isEnd = enemies.get(j).isDead();
 					}
 				}
 			}
-				
+		}	
 
 		}while(!isEnd);
 	}
