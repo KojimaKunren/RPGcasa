@@ -94,8 +94,7 @@ public class Main {
 		//Start	
 		System.out.print("プレイヤー名を入力してください>");
 		playerList.get(0).setName(scan.nextLine());
-		System.out.printf("%sの冒険を始めます↲\n\n「s」でステータス、「i」でアイテム、「w」で装備品が確認できます。\n「t」で街内の移動、「m」でマップの移動ができます。\n"
-				+ "",playerList.get(0).getName());
+		System.out.printf("%sの冒険を始めます↲\n",playerList.get(0).getName());
 		System.out.println("");
 		
 		//テキスト読み込み
@@ -179,13 +178,27 @@ public class Main {
 
 			//シーン移動
 			if (textMain.get(i).contains("sn")) {
-				String[] str = textMain.get(i).replace("sn", "");
-				for((str.readLine)! = null) { 
-				int[] num = Integer.parseInt(str);
+				String str = textMain.get(i).replace("sn", "");
+				int[] num = new int[3];
+				String[] s = str.split(",");
+				for (int j = 1; j < s.length; j++) {
+					num[j] = Integer.parseInt(s[j]);
 				}
-				talkSelect(num[1],num[2]);
-				i = Integer.parseInt(str);
+				int select = scan.nextInt();
+				while (true) {
+					if (select >= 0 && select < 2) {
+						i = num[select + 1];
+						break;
+					} else
+						System.out.println("正しい数字を入力してください");
+				}
 			}
+			
+			//END
+			if (textMain.get(i).contains("END")) {
+				playerList.get(0).isDead();
+					return;
+				}
 			
 			//			if (playerList.get(0).field instanceof MidField) {
 			//				MidField m = (MidField) playerList.get(0).field;
