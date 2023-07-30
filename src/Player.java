@@ -199,28 +199,6 @@ public class Player implements Human {
 		+ this.getLevel() + " 経験値: " + this.getExp() + "\n" + "現在地: " + this.field.getName() + "\n"); 
 	}
 	
-	//アイテム表示メソッド
-	public void showItem(ArrayList<Player> playerList, Portion portion) {
-		System.out.println("財布：" + this.getWallet());
-		do {
-		for(int i = 0; i < items.size(); i++) {
-			System.out.println((i + 1) + ": " + this.items.get(i).getName() +  "×" + this.items.get(i).getNum());
-		}
-		System.out.println("使うアイテムの番号を入力してください。使わない場合は「100」を入力>");
-		int select = new java.util.Scanner(System.in).nextInt() - 1;
-		if (select == 99)
-			break;
-		if(select >= items.size()) {
-			System.out.println("正しい数字を入力してください");
-			continue;
-		}
-		if (items.get(select) instanceof Portion) {
-			playerList.get(0).usePortion(playerList, portion);
-		}
-		System.out.println("");
-		}while(true);
-	}
-	
 	//装備品表示メソッド
 	public void showWeapon(ArrayList<Player> playerList) {
 		do {
@@ -282,6 +260,34 @@ public class Player implements Human {
 		}
 	}
 	
+	//アイテム表示メソッド
+	public void showItem(ArrayList<Player> playerList) {
+		System.out.println("財布：" + this.getWallet());
+		do {
+			if (!playerList.get(0).items.isEmpty()) {
+				for (int i = 0; i < items.size(); i++) {
+					System.out.println((i + 1) + ": " + this.items.get(i).getName() + "×" + this.items.get(i).getNum());
+				}
+				System.out.println("使うアイテムの番号を入力してください。使わない場合は「100」を入力>");
+				int select = new java.util.Scanner(System.in).nextInt() - 1;
+				if (select == 99)
+					break;
+				if (select >= items.size()) {
+					System.out.println("正しい数字を入力してください");
+					continue;
+				}
+				if (playerList.get(0).items.get(select) instanceof Portion) {
+					Portion p = (Portion)playerList.get(0).items.get(select);
+					playerList.get(0).usePortion(playerList, p);
+				}
+				System.out.println("");
+			} else {
+				System.out.print("アイテムがありません\n\n");
+				break;
+			}
+		} while (true);
+	}
+	
 	//アイテム使用
 	public void useItem() {
 		if (this.items.size() > 0) {
@@ -295,45 +301,41 @@ public class Player implements Human {
 	//ポーション利用メソッド
 	//※※マジックナンバー利用
 	public void usePortion(ArrayList<Player> playerList, Portion portion) {
-		do {
-		if (playerList.get(0).items.contains(portion)) {
-			System.out.print("誰にポーションを使いますか。使用しない場合は「100」を入力>");
+		do {		
+			System.out.print("誰にポーションを使いますか。使用しない場合は「100」を入力>\n");
 			for(int i = 0; i < playerList.size(); i ++){
 				System.out.println(i + ": " + playerList.get(i).getName());
 			}
 			int select = new java.util.Scanner(System.in).nextInt();
-			if (select == 100)
+			if (select == 100) 
 				break;
 			if(select >= playerList.size()) {
 				System.out.println("正しい数字を入力してください");
 				continue;
 			}
 			if (playerList.get(select).getHp() < playerList.get(select).getFullhp()) {
-				this.recoveryPortion(playerList.get(select), playerList, portion);
+				this.recoveryPortion(playerList.get(select), playerList ,portion);
 //				System.out.printf("%sのHPが回復しました。HP: %d\n\n", playerList.get(select).getName(),
 //						playerList.get(select).getHp());
 			} else if (playerList.get(select).getFullhp() >= playerList.get(select).getHp()) {
 				System.out.println("HPはフルです");
 			}
-		} else if (playerList.get(0).items.get(0).getNum() <= 0) {
-			System.out.println("ポーションがありません");
-		}
 		}while(true);
 	}
 
 	//ポーション処理
-	public void recoveryPortion(Player player,ArrayList<Player> playerList, Portion portion) {
-		int r =player.getHp() + portion.getRecover();
-		if(r < this.getFullhp()) {
+	public void recoveryPortion(Player player,ArrayList<Player> playerList,Portion portion) {
+		int r = player.getHp() + portion.getRecover();
+		if (r < this.getFullhp()) {
 			player.setHp(player.getHp() + portion.getRecover());
 			System.out.println("HPが" + portion.getRecover() + "回復しました");
-		}else {
+		} else {
 			this.setHp(this.getFullhp());
 			System.out.println("HPがフルになりました\n");
 		}
 		int num = playerList.get(0).items.indexOf(portion);
-		playerList.get(0).items.get(num).setNum(playerList.get(0).items.get(num).getNum()-1);
-//		System.out.println(playerList.get(0).items.get(num).getNum()-1);
+		playerList.get(0).items.get(num).setNum(playerList.get(0).items.get(num).getNum() - 2);
+		//		System.out.println(playerList.get(0).items.get(num).getNum()-1);
 	}
 	
 	//GameOver判定
@@ -400,7 +402,7 @@ public class Player implements Human {
 				nums[1] = 4;
 				createEnemy.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
 				createEnemy.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
-				battle.battle(playerList, enemyList, portion, levelUpList);
+				battle.battle(playerList, enemyList, levelUpList);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if (playerList.get(0).getHp() <= 0) {

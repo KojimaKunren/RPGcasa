@@ -62,14 +62,13 @@ public class Main {
 		Portion hiportion = new HiPortion("ハイポーション", 5, 1, 100, 20);
 		BlessingWater blessingWater = new BlessingWater("祝福の水",3,1,50,15);
 		playerList.get(0).items = items;
-		playerList.get(0).items.add(portion);
 		
 		//武器リスト
 		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
-		playerList.get(0).weapons = weapons;
 		Sword dagger = new Dagger("ダガー", 1, 2, 2,10,10);
 		Armor leatherArmor = new LeatherArmor("皮の鎧",1,2, 2,10,15);
 		Sield woodenSield = new WoodenSield("木の盾",1,2,2,5,5);
+		playerList.get(0).weapons = weapons;
 		
 		//バトル
 		Battle battle = new Battle();
@@ -132,7 +131,7 @@ public class Main {
 			
 			//バトル実行
 			if (textMain.get(i).contains("btl")) {
-				battle.battle( playerList, enemyList, (Portion) items.get(0), levelUpList);
+				battle.battle( playerList, enemyList, levelUpList);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if (playerList.get(0).getHp() <= 0) {
@@ -151,7 +150,7 @@ public class Main {
 			
 			//アイテム表示
 			if (console.equals("i")) {
-				playerList.get(0).showItem(playerList, portion);
+				playerList.get(0).showItem(playerList);
 			}
 			
 			//装備品表示
@@ -178,6 +177,16 @@ public class Main {
 				i = Integer.parseInt(str);
 			}
 
+			//シーン移動
+			if (textMain.get(i).contains("sn")) {
+				String[] str = textMain.get(i).replace("sn", "");
+				for((str.readLine)! = null) { 
+				int[] num = Integer.parseInt(str);
+				}
+				talkSelect(num[1],num[2]);
+				i = Integer.parseInt(str);
+			}
+			
 			//			if (playerList.get(0).field instanceof MidField) {
 			//				MidField m = (MidField) playerList.get(0).field;
 			//				int r = playerList.get(0).moveField(m);

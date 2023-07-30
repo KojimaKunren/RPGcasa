@@ -9,7 +9,7 @@ public class Battle {
 	private int playerDmg;
 	private int enemyDmg;
 	
-	public void battle(ArrayList<Player> playerList, ArrayList<Enemy> enemies, Portion portion, ArrayList<String> levelUpList) throws IOException{
+	public void battle(ArrayList<Player> playerList, ArrayList<Enemy> enemies, ArrayList<String> levelUpList) throws IOException{
 		Scanner scan = new java.util.Scanner(System.in);
 		boolean isEnd = false;
 		
@@ -88,7 +88,7 @@ public class Battle {
 				break;
 				
 			case 4:
-				playerList.get(0).showItem(playerList, portion);
+				playerList.get(0).showItem(playerList);
 				break;
 				
 			case 5:
