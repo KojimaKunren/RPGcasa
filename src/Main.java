@@ -134,11 +134,16 @@ public class Main {
 			
 			//バトル実行
 			if (textMain.get(i).contains("btl")) {
-				battle.battle( playerList, enemyList, levelUpList);
+				battle.battle(playerList, enemyList, levelUpList);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if (playerList.get(0).getHp() <= 0) {
-					return;
+					if (i == 29) {
+						i = 30;
+						continue;
+					} else {
+						return;
+					}
 				}
 				enemyList.clear();
 			}
