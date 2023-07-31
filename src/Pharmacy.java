@@ -48,9 +48,8 @@ public class Pharmacy extends Shop {
 			int itemNum = scan.nextInt();
 			//購入金額の表示および購入確認
 			int itemPrice = itemNum * castPrice.get(selectItem).getPrice();
-			System.out.println("薬屋のグッラーダ「" +
-					this.items.get(selectItem).getName() + itemNum + "×" + castPrice.get(selectItem).getPrice()
-					+ "=" + itemPrice + " これで良いかい」\n 0:買う　1:やめておく>");
+			System.out.printf("薬屋のグッラーダ「%sを%dつで%dポンギだ、これで良いかい」\n 0:買う　1:やめておく>" ,
+					this.items.get(selectItem).getName(),itemNum , itemPrice);
 			int confirmation = scan.nextInt();
 			//購入処理
 			if (confirmation == 0) {
