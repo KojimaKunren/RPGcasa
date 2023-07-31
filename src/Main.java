@@ -49,6 +49,7 @@ public class Main {
 		Field field = new Field();
 		Town town1 = new Town("王都ギロッポンヌ");
 		Town town2 = new Town("隣町モンブル");
+		Field slum = new Slum("裏町");
 		fields.add(town1);
 		fields.add(town2);
 		MidField midfield1 = new MidField("王都周辺の道", 30);
@@ -92,8 +93,13 @@ public class Main {
 		
 
 		//Start	
+		while(true) {
 		System.out.print("プレイヤー名を入力してください>");
 		playerList.get(0).setName(scan.nextLine());
+		if(!playerList.get(0).getName().equals("")) {
+			break;
+			}else System.out.println("\nプレイヤー名が入力されていません\n");
+		}
 		System.out.printf("%sの冒険を始めます↲\n",playerList.get(0).getName());
 		System.out.println("");
 		
@@ -171,7 +177,7 @@ public class Main {
 			//マップ移動
 			if (console.equals("m")) {
 				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList,csvReader, createEnemy, enemyList, 
-						(Portion) items.get(0), levelUpList);
+						 levelUpList);
 				if(isDead) return;
 			}
 

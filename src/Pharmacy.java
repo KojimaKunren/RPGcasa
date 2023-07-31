@@ -64,10 +64,8 @@ public class Pharmacy extends Shop {
 //				boolean b = playerList.get(0).items.contains(this.items.get(selectItem).getName());
 				boolean b = playerList.get(0).items.contains(this.items.get(selectItem));
 				String s = this.items.get(selectItem).getName();
-				System.out.println(b);
 				if (b) {
 					int a = playerList.get(0).items.indexOf(this.items.get(selectItem));
-					System.out.println(a);
 					playerList.get(0).items.get(a).setNum(playerList.get(0).items.get(a).getNum() + itemNum);
 				} else if (!b) {
 					playerList.get(0).items.add(this.items.get(selectItem));

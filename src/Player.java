@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Player implements Human {
@@ -265,22 +266,29 @@ public class Player implements Human {
 		System.out.println("財布：" + this.getWallet());
 		do {
 			if (!playerList.get(0).items.isEmpty()) {
-				for (int i = 0; i < items.size(); i++) {
-					System.out.println((i + 1) + ": " + this.items.get(i).getName() + "×" + this.items.get(i).getNum());
-				}
-				System.out.println("使うアイテムの番号を入力してください。使わない場合は「100」を入力>");
-				int select = new java.util.Scanner(System.in).nextInt() - 1;
-				if (select == -1)
-					break;
-				if (select >= items.size()) {
+				try {
+					for (int i = 0; i < items.size(); i++) {
+						System.out.println(
+								(i + 1) + ": " + this.items.get(i).getName() + "×" + this.items.get(i).getNum());
+					}
+					System.out.println("使うアイテムの番号を入力してください。使わない場合は「0」を入力>");
+					int select = new java.util.Scanner(System.in).nextInt();
+					if (select == 0)
+						break;
+					select -= 1;
+					if (select > items.size()) {
+						System.out.println("正しい数字を入力してください");
+						continue;
+					}
+					if (playerList.get(0).items.get(select) instanceof Portion) {
+						Portion p = (Portion) playerList.get(0).items.get(select);
+						playerList.get(0).usePortion(playerList, p);
+					} else
+						System.out.println("正しい数字を入力してください");
+					System.out.println("");
+				} catch (InputMismatchException e) {
 					System.out.println("正しい数字を入力してください");
-					continue;
 				}
-				if (playerList.get(0).items.get(select) instanceof Portion) {
-					Portion p = (Portion)playerList.get(0).items.get(select);
-					playerList.get(0).usePortion(playerList, p);
-				}
-				System.out.println("");
 			} else {
 				System.out.print("アイテムがありません\n\n");
 				break;
@@ -301,31 +309,35 @@ public class Player implements Human {
 	//ポーション利用メソッド
 	//※※マジックナンバー利用
 	public void usePortion(ArrayList<Player> playerList, Portion portion) {
-		do {		
+		boolean b = false;
+		do {
 			System.out.print("誰にポーションを使いますか。使用しない場合は「0」を入力>\n");
-			for(int i = 0; i < playerList.size(); i ++){
+			for (int i = 0; i < playerList.size(); i++) {
 				System.out.println((i + 1) + ": " + playerList.get(i).getName());
 			}
 			int select = new java.util.Scanner(System.in).nextInt();
-			if (select == 0) 
+			if (select == 0)
 				break;
-			if(select >= playerList.size()) {
+			select -= 1;
+			if (select > playerList.size()) {
 				System.out.println("正しい数字を入力してください");
 				continue;
 			}
 			if (playerList.get(select).getHp() < playerList.get(select).getFullhp()) {
-				this.recoveryPortion(playerList.get(select), playerList ,portion);
-//				System.out.printf("%sのHPが回復しました。HP: %d\n\n", playerList.get(select).getName(),
-//						playerList.get(select).getHp());
+				b = this.recoveryPortion(playerList.get(select), playerList, portion);
+				//				System.out.printf("%sのHPが回復しました。HP: %d\n\n", playerList.get(select).getName(),
+				//						playerList.get(select).getHp());
 			} else if (playerList.get(select).getFullhp() >= playerList.get(select).getHp()) {
 				System.out.println("HPはフルです");
 			}
-		}while(true);
+
+		} while (!b);
 	}
 
 	//ポーション処理
-	public void recoveryPortion(Player player,ArrayList<Player> playerList,Portion portion) {
+	public boolean recoveryPortion(Player player,ArrayList<Player> playerList,Portion portion) {
 		int r = player.getHp() + portion.getRecover();
+		boolean b = false;
 		if (r < this.getFullhp()) {
 			player.setHp(player.getHp() + portion.getRecover());
 			System.out.println("HPが" + portion.getRecover() + "回復しました");
@@ -334,8 +346,11 @@ public class Player implements Human {
 			System.out.println("HPがフルになりました\n");
 		}
 		int num = playerList.get(0).items.indexOf(portion);
-		playerList.get(0).items.get(num).setNum(playerList.get(0).items.get(num).getNum() - 2);
-		//		System.out.println(playerList.get(0).items.get(num).getNum()-1);
+		playerList.get(0).items.get(num).setNum(playerList.get(0).items.get(num).getNum()-1);
+		if(playerList.get(0).items.get(num).getNum() == 0) {playerList.get(0).items.remove(num);
+		b = true;
+	}
+		return b;
 	}
 	
 	//GameOver判定
@@ -346,43 +361,53 @@ public class Player implements Human {
 	}
 	
 	//フィールド移動メソッド
-	public boolean moveField(ArrayList<Field> fields,Battle battle,Player player, ArrayList<Player> playerList ,CsvReader csvreader, CreateEnemy createEnemy, ArrayList<Enemy> enemyList, Portion  portion, ArrayList<String> levelUpList) throws IOException{
+	public boolean moveField(ArrayList<Field> fields, Battle battle, Player player, ArrayList<Player> playerList,
+			CsvReader csvreader, CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList)
+			throws IOException {
 		boolean isDead = false;
+		boolean b = false;
 		Scanner scan = new Scanner(System.in);
-		System.out.println("移動しますか 0: 移動する 1:移動しない");
-		int select = scan.nextInt();
 
-		if(select ==0) {
-			System.out.println("どこに移動しますか>");
-			for(int i = 0; i < fields.size(); i++) {
-				System.out.println(i+ " : " +fields.get(i).getName());
+		do {
+			try {
+				System.out.println("移動しますか 0: 移動する 1:移動しない");
+				int select = scan.nextInt();
+
+				if (select == 0) {
+					System.out.println("どこに移動しますか>");
+					for (int i = 0; i < fields.size(); i++) {
+						System.out.println(i + " : " + fields.get(i).getName());
+					}
+					int select2 = scan.nextInt();
+					//隣町開発中のための処置
+					//			if(fields.get(select2) instanceof Town){
+					//			System.out.println(fields.get(select2).getName() + "へ入りました\n");
+					if (select2 == 0) {
+						System.out.println(fields.get(select2).getName() + "へ入りました\n");
+					} else if (select2 == 1) {
+						System.out.println("開発中です\n王都ギロッポンヌに戻ります\n");
+						select2 = 0;
+					} else if (select2 == 2) {
+						System.out.println(fields.get(select2).getName() + "へ移動します\n");
+					}
+					if (fields.get(select2) instanceof MidField) {
+						MidField mf = (MidField) fields.get(select2);
+						isDead = moveField(mf, battle, player, playerList, csvreader, createEnemy, enemyList,
+								levelUpList);
+					}
+					this.field = fields.get(select2);
+					b = true;
+					break;
+				}else break;
+			} catch (InputMismatchException e) {
+				System.out.println("正しい数字を入力してください");
 			}
-			int select2 = scan.nextInt();
-			//隣町開発中のための処置
-//			if(fields.get(select2) instanceof Town){
-//			System.out.println(fields.get(select2).getName() + "へ入りました\n");
-			
-			
-			if(select2 == 0) {
-				System.out.println(fields.get(select2).getName() + "へ入りました\n");
-			}else if(select2 == 1) {
-				System.out.println("開発中です\n王都ギロッポンヌに戻ります\n");
-				select2 = 0;
-			}else if(select2 == 2){
-				System.out.println(fields.get(select2).getName() + "へ移動します\n");
-			}
-			if(fields.get(select2) instanceof MidField) {
-				MidField mf = (MidField)fields.get(select2);
-				isDead = moveField(mf,battle,player,playerList,csvreader,createEnemy,enemyList,portion,levelUpList);
-			}
-			this.field = fields.get(select2);
-			
-		}
+		} while (!b);
 		return isDead;
 	}
 	
 	//フィールド移動中のメソッド
-	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,CreateEnemy createEnemy, ArrayList<Enemy> enemyList,Portion  portion, ArrayList<String> levelUpList)throws IOException{
+	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList)throws IOException{
 		int dis = mf.getDistance();
 		int r = 0;
 		boolean isDead = false;

@@ -26,7 +26,7 @@ public class CreateEnemy {
 		}
 			Enemy enemy = new Enemy(str,nums[0],nums[1],nums[2],nums[3],nums[4],nums[5],nums[6]);
 			enemies.add(enemy);
-			System.out.println(enemies.get(i).getName() + "があらわれた");
+			System.out.println(str + "があらわれた");
 		}
 	}
 }
