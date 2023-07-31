@@ -137,18 +137,16 @@ public class Main {
 				battle.battle(playerList, enemyList, levelUpList);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-				if (playerList.get(0).getHp() <= 0) {
-					if (i == 29) {
-						i = 30;
-						continue;
-					} else {
+				if (playerList.get(0).getHp() <= 0 && i == 29) {
+					i = 30;
+				break;
+					} else if(playerList.get(0).getHp() <= 0) {
 						return;
-					}
+				
 				}
 				enemyList.clear();
+				
 			}
-
-
 			//ステータス表示
 			if (console.equals("s")) {
 				playerList.get(0).showStatus();
@@ -183,7 +181,7 @@ public class Main {
 				i = Integer.parseInt(str);
 			}
 
-			//シーン移動
+			//シーン移動(分岐処理)
 			if (textMain.get(i).contains("sn")) {
 				String str = textMain.get(i).replace("sn", "");
 				int[] num = new int[3];
@@ -191,16 +189,17 @@ public class Main {
 				for (int j = 1; j < s.length; j++) {
 					num[j - 1] = Integer.parseInt(s[j]);
 				}
-				while (true) {
+
+				if (console.equals("0") || console.equals("1")) {
 					int select = Integer.parseInt(console);
-					if (select >= 0 && select < 2) {
-						i = num[(select)];
-						break;
-					} else
-						System.out.println("正しい数字を入力してください");
+					i = num[(select)];
+				}else {
+					System.out.println("正しい数字を入力してください");
+					i = i -1;
+					continue;
 				}
 			}
-			
+
 			//END
 			if (textMain.get(i).contains("END")) {
 				playerList.get(0).isDead();

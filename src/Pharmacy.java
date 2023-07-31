@@ -25,7 +25,9 @@ public class Pharmacy extends Shop {
 	}
 
 	public void talk(ArrayList<Player> playerList, ArrayList<Item> itemList) {
+		boolean isOut = false;
 		System.out.println(this.getName() + "に入った\n\n薬屋のグッラーダ「やあ、調子はどう。何か入り用かい」");
+		do {
 		System.out.println("0: 買い物をする 1: アイテムを売る 2: やめておく");
 		int select = scan.nextInt();
 		ArrayList<RecoveryItem> castPrice = new ArrayList<RecoveryItem>();
@@ -60,9 +62,13 @@ public class Pharmacy extends Shop {
 					continue;
 				}
 				//商品の処理;
-				boolean b = playerList.get(0).items.contains(this.items.get(itemNum).getName());
+//				boolean b = playerList.get(0).items.contains(this.items.get(selectItem).getName());
+				boolean b = playerList.get(0).items.contains(this.items.get(selectItem));
+				String s = this.items.get(selectItem).getName();
+				System.out.println(b);
 				if (b) {
-					int a = playerList.get(0).items.indexOf(this.items.get(itemNum).getName());
+					int a = playerList.get(0).items.indexOf(this.items.get(selectItem));
+					System.out.println(a);
 					playerList.get(0).items.get(a).setNum(playerList.get(0).items.get(a).getNum() + itemNum);
 				} else if (!b) {
 					playerList.get(0).items.add(this.items.get(selectItem));
@@ -71,29 +77,36 @@ public class Pharmacy extends Shop {
 			}
 			System.out.println("薬屋のグッラーダ「ほかに何かいるかい」\n 0: 買い物を続ける 1: 店を出る>");
 			int select2 = scan.nextInt();
-			if (select2 == 0);
+			if (select2 == 0)
+				;
 			else if (select2 == 1) {
 				System.out.println("薬屋のグッラーダ「使用上の注意をよく読んでな」\n");
+				isOut = true;
 				break;
 			}
 		}
-			break;
+		break;
 
 		case 1:
 			System.out.println("薬屋のグッラーダ「開発中だよ」");
 			System.out.println("薬屋のグッラーダ「ほかに何かいるかい」\n 0: 買い物を続ける 1: 店を出る>");
 			int select3 = scan.nextInt();
 			if (select3 == 0)
-				;
+				continue;
 			else if (select3 == 1) {
 				System.out.println("薬屋のグッラーダ「またね」\n");
+				isOut = true;
 				break;
 			}
 			break;
 
 		case 2:
 			System.out.println("薬屋のグッラーダ「命大事にね」\n");
+			isOut = true;
+			break;
 		default:
+			System.out.println("正しい数字を入力してください");
 		}
+		}while(!isOut);
 	}
 }

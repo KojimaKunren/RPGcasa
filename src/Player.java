@@ -270,7 +270,7 @@ public class Player implements Human {
 				}
 				System.out.println("使うアイテムの番号を入力してください。使わない場合は「100」を入力>");
 				int select = new java.util.Scanner(System.in).nextInt() - 1;
-				if (select == 99)
+				if (select == -1)
 					break;
 				if (select >= items.size()) {
 					System.out.println("正しい数字を入力してください");
@@ -302,12 +302,12 @@ public class Player implements Human {
 	//※※マジックナンバー利用
 	public void usePortion(ArrayList<Player> playerList, Portion portion) {
 		do {		
-			System.out.print("誰にポーションを使いますか。使用しない場合は「100」を入力>\n");
+			System.out.print("誰にポーションを使いますか。使用しない場合は「0」を入力>\n");
 			for(int i = 0; i < playerList.size(); i ++){
-				System.out.println(i + ": " + playerList.get(i).getName());
+				System.out.println((i + 1) + ": " + playerList.get(i).getName());
 			}
 			int select = new java.util.Scanner(System.in).nextInt();
-			if (select == 100) 
+			if (select == 0) 
 				break;
 			if(select >= playerList.size()) {
 				System.out.println("正しい数字を入力してください");

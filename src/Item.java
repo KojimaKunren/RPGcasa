@@ -36,6 +36,15 @@ public abstract class Item {
 	public void setItemList(ArrayList<Item> items) {
 		this.items = items;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Item) {
+			Item item = (Item)obj;
+			return item.getName().equals(this.getName());
+		}
+		return false;
+	}
 	
 
 }
