@@ -99,6 +99,10 @@ public class Main {
 		
 		//テキスト読み込み
 		for (int i = 0; i < textMain.size(); i++) {
+			
+			//コンソール表示入力
+			String console = scan.nextLine();
+			
 			if (textMain.get(i).contains("pn")) {
 				System.out.println(textMain.get(i).replace("pn", playerList.get(0).getName()) + "↲");
 				continue;
@@ -139,8 +143,6 @@ public class Main {
 				enemyList.clear();
 			}
 
-			//コンソール表示入力
-			String console = scan.nextLine();
 
 			//ステータス表示
 			if (console.equals("s")) {
@@ -182,12 +184,12 @@ public class Main {
 				int[] num = new int[3];
 				String[] s = str.split(",");
 				for (int j = 1; j < s.length; j++) {
-					num[j] = Integer.parseInt(s[j]);
+					num[j - 1] = Integer.parseInt(s[j]);
 				}
-				int select = scan.nextInt();
 				while (true) {
+					int select = Integer.parseInt(console);
 					if (select >= 0 && select < 2) {
-						i = num[select + 1];
+						i = num[(select)];
 						break;
 					} else
 						System.out.println("正しい数字を入力してください");
