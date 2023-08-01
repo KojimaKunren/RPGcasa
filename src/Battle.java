@@ -19,6 +19,7 @@ public class Battle {
 		loop: do {
 			try {
 				for (int i = 0; i < playerList.size(); i++) {
+					System.out.println("\n----------------------------------------------------------------------");
 					if(playerList.get(i).getHp() >= 0)
 					System.out.printf("\n\n%sの攻撃", playerList.get(i).getName());
 				System.out.printf("\n1:攻撃 2;魔法 3:防御 4:アイテム 5:ステータス 6:退却>");
@@ -142,6 +143,8 @@ public class Battle {
 					for (int j = 0; j < enemies.size(); j++) {
 						System.out.printf(" *%s HP%d\t", enemies.get(j).getName(), enemies.get(j).getHp());
 					}
+					
+					System.out.println("\n----------------------------------------------------------------------");
 					
 					if (playerList.get(0).getHp() <= 0) {
 						System.out.println("\n戦闘に負けてしまった");

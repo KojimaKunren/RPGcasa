@@ -134,7 +134,7 @@ public class Main {
 				int pcn = Integer.parseInt(pc);
 				ArrayList<String> strList4 = csvReader.csvReader("playerList.csv");
 				createPlayer.createPlayer(pcn,playerList, strList4);
-				textMain.remove(i);
+				i += 1;
 				continue;
 			}
 			
@@ -185,6 +185,14 @@ public class Main {
 			if (textMain.get(i).contains("#")) {
 				String str = textMain.get(i).replace("#", "");
 				i = Integer.parseInt(str);
+			}
+			
+			//ウォレット処理
+			if(textMain.get(i).contains("wa")) {
+				String money = textMain.get(i).replace("wa,","");
+				int m = Integer.parseInt(money);
+				playerList.get(0).setWallet(playerList.get(0).getWallet() + m);
+				i += 1;
 			}
 
 			//シーン移動(分岐処理)
