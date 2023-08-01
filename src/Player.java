@@ -376,7 +376,7 @@ public class Player implements Human {
 	
 	//フィールド移動メソッド
 	public boolean moveField(ArrayList<Field> fields, Battle battle, Player player, ArrayList<Player> playerList,
-			CsvReader csvreader, CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)
+			CsvReader csvreader, EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)
 			throws IOException {
 		boolean isDead = false;
 		boolean b = false;
@@ -409,7 +409,7 @@ public class Player implements Human {
 						System.out.println(fields.get(select2).getName() + "へ移動します\n");
 					if (fields.get(select2) instanceof MidField) {
 						MidField mf = (MidField) fields.get(select2);
-						isDead = moveField(mf, battle, player, playerList, csvreader, createEnemy, enemyList,levelUpList,lineNum);
+						isDead = moveField(mf, battle, player, playerList, csvreader, enemyCreater, enemyList,levelUpList,lineNum);
 					}
 						break;
 					default:
@@ -426,7 +426,7 @@ public class Player implements Human {
 	}
 	
 	//フィールド移動中のメソッド
-	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)throws IOException{
+	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)throws IOException{
 		int dis = mf.getDistance();
 		int r = 0;
 		boolean isDead = false;
@@ -444,8 +444,8 @@ public class Player implements Human {
 				nums[3] = new java.util.Random().nextInt(1) + 1;
 				nums[0] = 3; 
 				nums[1] = 4;
-				createEnemy.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
-				createEnemy.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
+				enemyCreater.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
+				enemyCreater.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
 				battle.battle(playerList, enemyList, levelUpList,lineNum);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);

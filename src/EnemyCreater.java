@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CreateEnemy {
+public class EnemyCreater {
 	public void createEnemy(int num, int num2, ArrayList<Enemy> enemies, ArrayList<String> getList)throws IOException {
 		int[] nums = new int[7];
 		for(int i = 0; i < num2; i++) {

@@ -31,13 +31,13 @@ public class Main {
 		ArrayList<String> players = new ArrayList<String>();
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		ArrayList<String> strList = csvReader.csvReader("playerList.csv");
-		CreatePlayer createPlayer = new CreatePlayer();
-		createPlayer.createPlayer(0,playerList, strList);
+		PlayerCreater playerCreater = new PlayerCreater();
+		playerCreater.createPlayer(0,playerList, strList);
 		
 		//敵リスト
 		ArrayList<String> enemies = new ArrayList<String>();
 		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
-		CreateEnemy createEnemy = new CreateEnemy();
+		EnemyCreater enemyCreater = new EnemyCreater();
 		
 		//武器仮置き
 //		playerList.get(0).sword = dagger;
@@ -124,7 +124,7 @@ public class Main {
 				}
 				ArrayList<String> str2List = csvReader.csvReader("enemyList.csv");
 				ecn[0] = (ecn[0] -1) * 8;
-				createEnemy.createEnemy(ecn[0], ecn[1], enemyList, str2List);
+				enemyCreater.createEnemy(ecn[0], ecn[1], enemyList, str2List);
 				ec = textMain.remove(i);
 			}
 
@@ -133,7 +133,7 @@ public class Main {
 				String pc = textMain.get(i).replace("pc,", "");
 				int pcn = Integer.parseInt(pc);
 				ArrayList<String> strList4 = csvReader.csvReader("playerList.csv");
-				createPlayer.createPlayer(pcn,playerList, strList4);
+				playerCreater.createPlayer(pcn,playerList, strList4);
 				i += 1;
 				continue;
 			}
@@ -176,7 +176,7 @@ public class Main {
 
 			//マップ移動
 			if (console.equals("m")) {
-				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList,csvReader, createEnemy, enemyList, 
+				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList,csvReader, enemyCreater, enemyList, 
 						 levelUpList,i);
 				if(isDead) return;
 			}

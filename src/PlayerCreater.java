@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CreatePlayer extends CreateAdd {
+public class PlayerCreater extends CreateAdd {
 	public void createPlayer(int num, ArrayList<Player> players, ArrayList<String> getList)throws IOException {
 		int[] nums = new int[9];
 		String str = getList.get(num);
