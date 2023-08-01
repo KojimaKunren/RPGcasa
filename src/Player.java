@@ -206,10 +206,19 @@ public class Player implements Human {
 	}
 	
 	//ステータス表示メソッド
-	public void showStatus() {
-		System.out.println( "プレイヤー名: " + this.getName() + " 職業: " + this.getRole() + "\nHP: " + this.getHp() + "/" + this.getFullhp()
-		+" MP: " + this.getMp() + "/" + this.getFullmp()	+ "\n攻撃力: "	+ this.getAtk() + " 防御力: " + this.getDef() + "\nレベル: "
-		+ this.getLevel() + " 経験値: " + this.getExp() + "\n" + "現在地: " + this.field.getName() + "\n"); 
+	public void showStatus(ArrayList<Player> playerList) {
+//		try {
+		for (int i = 0; i < playerList.size(); i++) {
+			System.out.println("プレイヤー名: " + playerList.get(i).getName() + " 職業: " + playerList.get(i).getRole() + "\nHP: " + playerList.get(i).getHp() + "/"
+					+ playerList.get(i).getFullhp()
+					+ " MP: " + playerList.get(i).getMp() + "/" + playerList.get(i).getFullmp() + "\n攻撃力: " + playerList.get(i).getAtk() + " 防御力: "
+					+ playerList.get(i).getDef() + "\nレベル: "
+					+ playerList.get(i).getLevel() + " 経験値: " + playerList.get(i).getExp() + "\n" + "現在地: " + playerList.get(0).field.getName() + "\n");
+		}
+//		}catch(NullPointerException e) {
+//			;
+//		}
+
 	}
 	
 	//装備品表示メソッド

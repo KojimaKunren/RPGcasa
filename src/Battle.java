@@ -22,7 +22,7 @@ public class Battle {
 				for (int i = 0; i < playerList.size(); i++) {
 					switch (select) {
 					case 1:
-						System.out.printf("1:通常攻撃 2:特殊攻撃>");
+						System.out.printf("\n1:通常攻撃 2:特殊攻撃>");
 						int selectAttack = new java.util.Scanner(System.in).nextInt();
 						if (selectAttack == 1) {
 							int r = new java.util.Random().nextInt(enemies.size());
@@ -108,7 +108,7 @@ public class Battle {
 						break;
 
 					case 5:
-						playerList.get(0).showStatus();
+						playerList.get(0).showStatus(playerList);
 						break;
 
 					case 6:

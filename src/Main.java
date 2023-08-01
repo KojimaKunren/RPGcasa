@@ -47,7 +47,7 @@ public class Main {
 		//フィールド
 		ArrayList<Field> fields = new ArrayList<Field>();
 		Field field = new Field();
-		Town town1 = new Town("王都ギロッポンヌ");
+		Town town1 = new Town("王都メトロ・ギロッポンヌ");
 		Town town2 = new Town("隣町モンブル");
 		Field slum = new Slum("裏町");
 		fields.add(town1);
@@ -130,7 +130,7 @@ public class Main {
 
 			//味方作成
 			if(textMain.get(i).contains("pc")) {
-				String pc = textMain.get(i).replace("pc", "");
+				String pc = textMain.get(i).replace("pc,", "");
 				int pcn = Integer.parseInt(pc);
 				ArrayList<String> strList4 = csvReader.csvReader("playerList.csv");
 				createPlayer.createPlayer(pcn,playerList, strList4);
@@ -144,7 +144,8 @@ public class Main {
 //				playerList.get(0).setHp(battle.getPlayerDmg());
 //				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if(i == 28) {
-					i =30;
+					i =29;
+					playerList.get(0).setHp(playerList.get(0).getFullhp());
 				}else if(playerList.get(0).getHp() <= 0) {
 						return;
 
@@ -154,7 +155,7 @@ public class Main {
 			}
 			//ステータス表示
 			if (console.equals("s")) {
-				playerList.get(0).showStatus();
+				playerList.get(0).showStatus(playerList);
 			}
 			
 			//アイテム表示
