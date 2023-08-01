@@ -140,15 +140,14 @@ public class Main {
 			
 			//バトル実行
 			if (textMain.get(i).contains("btl")) {
-				battle.battle(playerList, enemyList, levelUpList);
-				playerList.get(0).setHp(battle.getPlayerDmg());
-				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-				if (playerList.get(0).getHp() <= 0 && i == 29) {
-					i = 30;
-				break;
-					} else if(playerList.get(0).getHp() <= 0) {
+				battle.battle(playerList, enemyList, levelUpList,i);
+//				playerList.get(0).setHp(battle.getPlayerDmg());
+//				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+				if(i == 28) {
+					i =30;
+				}else if(playerList.get(0).getHp() <= 0) {
 						return;
-				
+
 				}
 				enemyList.clear();
 				
@@ -177,7 +176,7 @@ public class Main {
 			//マップ移動
 			if (console.equals("m")) {
 				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList,csvReader, createEnemy, enemyList, 
-						 levelUpList);
+						 levelUpList,i);
 				if(isDead) return;
 			}
 
@@ -208,7 +207,7 @@ public class Main {
 
 			//END
 			if (textMain.get(i).contains("END")) {
-				playerList.get(0).isDead();
+				playerList.get(0).isDead(i);
 					return;
 				}
 			

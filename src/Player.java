@@ -184,6 +184,18 @@ public class Player implements Human {
 		return enemy.getHp();
 	}
 	
+	//GameOver判定
+	public int isDead(int lineNum) {
+		int r = 0;
+		if(lineNum == 28) {
+			r = 1;
+		}else {
+//		boolean isEnd = true;
+		System.out.println("\nGAME OVER\n物語はまだはじまらない…");
+		}
+		return r;
+	}
+	
 	//会話メソッド
 	public int talk(String name) {
 		System.out.println(name + "に話しかけますか");
@@ -353,16 +365,9 @@ public class Player implements Human {
 		return b;
 	}
 	
-	//GameOver判定
-	public boolean isDead() {
-		boolean isEnd = true;
-		System.out.println("\nGAME OVER\n物語はまだはじまらない…");
-	return isEnd;
-	}
-	
 	//フィールド移動メソッド
 	public boolean moveField(ArrayList<Field> fields, Battle battle, Player player, ArrayList<Player> playerList,
-			CsvReader csvreader, CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList)
+			CsvReader csvreader, CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)
 			throws IOException {
 		boolean isDead = false;
 		boolean b = false;
@@ -371,8 +376,7 @@ public class Player implements Human {
 		do {
 			try {
 				System.out.println("移動しますか 0: 移動する 1:移動しない");
-				int select = scan.nextInt();
-
+				int select = new java.util.Scanner(System.in).nextInt();
 				if (select == 0) {
 					System.out.println("どこに移動しますか>");
 					for (int i = 0; i < fields.size(); i++) {
@@ -382,23 +386,29 @@ public class Player implements Human {
 					//隣町開発中のための処置
 					//			if(fields.get(select2) instanceof Town){
 					//			System.out.println(fields.get(select2).getName() + "へ入りました\n");
-					if (select2 == 0) {
+					switch(select2){
+						case 0:
 						System.out.println(fields.get(select2).getName() + "へ入りました\n");
-					} else if (select2 == 1) {
+						break;
+						
+						case 1:
 						System.out.println("開発中です\n王都ギロッポンヌに戻ります\n");
 						select2 = 0;
-					} else if (select2 == 2) {
+						break;
+						
+						case 2:
 						System.out.println(fields.get(select2).getName() + "へ移動します\n");
-					}
 					if (fields.get(select2) instanceof MidField) {
 						MidField mf = (MidField) fields.get(select2);
-						isDead = moveField(mf, battle, player, playerList, csvreader, createEnemy, enemyList,
-								levelUpList);
+						isDead = moveField(mf, battle, player, playerList, csvreader, createEnemy, enemyList,levelUpList,lineNum);
+					}
+						break;
+					default:
 					}
 					this.field = fields.get(select2);
 					b = true;
 					break;
-				}else break;
+				} else System.out.println("正しい数字を入力してください");
 			} catch (InputMismatchException e) {
 				System.out.println("正しい数字を入力してください");
 			}
@@ -407,7 +417,7 @@ public class Player implements Human {
 	}
 	
 	//フィールド移動中のメソッド
-	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList)throws IOException{
+	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,CreateEnemy createEnemy, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)throws IOException{
 		int dis = mf.getDistance();
 		int r = 0;
 		boolean isDead = false;
@@ -427,7 +437,7 @@ public class Player implements Human {
 				nums[1] = 4;
 				createEnemy.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
 				createEnemy.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
-				battle.battle(playerList, enemyList, levelUpList);
+				battle.battle(playerList, enemyList, levelUpList,lineNum);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if (playerList.get(0).getHp() <= 0) {
