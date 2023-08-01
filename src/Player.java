@@ -442,8 +442,8 @@ public class Player implements Human {
 				
 				nums[2] = new java.util.Random().nextInt(1) + 1 ;
 				nums[3] = new java.util.Random().nextInt(1) + 1;
-				nums[0] = 3; 
-				nums[1] = 4;
+				nums[0] = 4; 
+				nums[1] = 5;
 				enemyCreater.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
 				enemyCreater.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
 				battle.battle(playerList, enemyList, levelUpList,lineNum);

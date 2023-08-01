@@ -20,7 +20,7 @@ public class Main {
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		ArrayList<String> strList = csvReader.csvReader("playerList.csv");
 		PlayerCreater playerCreater = new PlayerCreater();
-		playerCreater.createPlayer(0, playerList, strList);
+		playerCreater.createPlayer(11, playerList, strList);
 
 		//敵リスト
 		ArrayList<String> enemies = new ArrayList<String>();
