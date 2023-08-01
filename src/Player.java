@@ -401,8 +401,8 @@ public class Player implements Human {
 						break;
 						
 						case 1:
-						System.out.println("開発中です\n王都ギロッポンヌに戻ります\n");
-						select2 = 0;
+						System.out.println("開発中です\n\"王都周辺の道\"へ移動します\n");
+						select2 = 2;
 						break;
 						
 						case 2:

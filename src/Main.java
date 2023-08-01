@@ -1,29 +1,17 @@
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		
-		//テキスト読み込み
+
 		Scanner scan = new Scanner(System.in);
-		
+
+		//テキスト読み込み
 		ArrayList<String> textMain = new ArrayList<String>();
-		String path = "textMain.txt";
+		TextReader textReader = new TextReader();
 
-		FileInputStream fis = new FileInputStream(path);
-		InputStreamReader isr = new InputStreamReader(fis, "utf-8");
-		BufferedReader br = new BufferedReader(isr);
-
-		String line = null;
-
-		while ((line = br.readLine()) != null) {
-			textMain.add(line);
-		}
-		
 		//csv読み込み
 		CsvReader csvReader = new CsvReader();
 
@@ -32,23 +20,18 @@ public class Main {
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		ArrayList<String> strList = csvReader.csvReader("playerList.csv");
 		PlayerCreater playerCreater = new PlayerCreater();
-		playerCreater.createPlayer(0,playerList, strList);
-		
+		playerCreater.createPlayer(0, playerList, strList);
+
 		//敵リスト
 		ArrayList<String> enemies = new ArrayList<String>();
 		ArrayList<Enemy> enemyList = new ArrayList<Enemy>();
 		EnemyCreater enemyCreater = new EnemyCreater();
-		
-		//武器仮置き
-//		playerList.get(0).sword = dagger;
-//		playerList.get(0).armor = leatherArmor;
-//		playerList.get(0).sield = woodenSield;
 
 		//フィールド
 		ArrayList<Field> fields = new ArrayList<Field>();
 		Field field = new Field();
 		Town town1 = new Town("王都メトロ・ギロッポンヌ");
-		Town town2 = new Town("隣町モンブル");
+		Town town2 = new Town("隣町アオマ・ウンテン");
 		Field slum = new Slum("裏町");
 		fields.add(town1);
 		fields.add(town2);
@@ -56,31 +39,31 @@ public class Main {
 		fields.add(midfield1);
 		playerList.get(0).field = town1;
 		playerList.get(0).fields = fields;
-		
+
 		//アイテムリスト
 		ArrayList<Item> items = new ArrayList<Item>();
 		Portion portion = new Portion("ポーション", 1, 1, 20, 10);
 		Portion hiportion = new HiPortion("ハイポーション", 5, 1, 100, 20);
-		BlessingWater blessingWater = new BlessingWater("祝福の水",3,1,50,15);
+		BlessingWater blessingWater = new BlessingWater("祝福の水", 3, 1, 50, 15);
 		playerList.get(0).items = items;
-		
+
 		//武器リスト
 		ArrayList<Weapon> weapons = new ArrayList<Weapon>();
-		Sword dagger = new Dagger("ダガー", 1, 2, 2,10,10);
-		Armor leatherArmor = new LeatherArmor("皮の鎧",1,2, 2,10,15);
-		Sield woodenSield = new WoodenSield("木の盾",1,2,2,5,5);
+		Sword dagger = new Dagger("ダガー", 1, 2, 2, 10, 10);
+		Armor leatherArmor = new LeatherArmor("皮の鎧", 1, 2, 2, 10, 15);
+		Sield woodenSield = new WoodenSield("木の盾", 1, 2, 2, 5, 5);
 		playerList.get(0).weapons = weapons;
-		
+
 		//バトル
 		Battle battle = new Battle();
 		ArrayList<String> levelUpList = new ArrayList<String>();
 		playerList.get(0).leveluplist = levelUpList;
-				
+
 		//ショップ
 		ArrayList<Shop> shopList = new ArrayList<Shop>();
 		ArrayList<Weapon> shopWeaponList = new ArrayList<Weapon>();
-		ArrayList<Item>shopItemList = new ArrayList<Item>();
-		shopList.add(0,	new Inn("モーテラの宿屋", 10));
+		ArrayList<Item> shopItemList = new ArrayList<Item>();
+		shopList.add(0, new Inn("モーテラの宿屋", 10));
 		shopList.add(1, new WeaponShop("ポンズの武器屋", shopWeaponList));
 		shopList.add(2, new Pharmacy("グッラーダの薬屋", shopItemList));
 		shopWeaponList.add(0, dagger);
@@ -90,29 +73,31 @@ public class Main {
 		shopItemList.add(1, hiportion);
 		shopItemList.add(2, blessingWater);
 		
-		
 
 		//Start	
-		while(true) {
-		System.out.print("プレイヤー名を入力してください>");
-		playerList.get(0).setName(scan.nextLine());
-		if(!playerList.get(0).getName().equals("")) {
-			break;
-			}else System.out.println("\nプレイヤー名が入力されていません\n");
+		while (true) {
+			System.out.print("プレイヤー名を入力してください>");
+			playerList.get(0).setName(scan.nextLine());
+			if (!playerList.get(0).getName().equals("")) {
+				break;
+			} else
+				System.out.println("\nプレイヤー名が入力されていません\n");
 		}
-		System.out.printf("%sの冒険を始めます↲\n",playerList.get(0).getName());
+		System.out.printf("%sの冒険を始めます↲\n", playerList.get(0).getName());
 		System.out.println("");
-		
+
 		//テキスト読み込み
-		for (int i = 0; i < textMain.size(); i++) {
-			
+		textReader.textReader(textMain, "textMain.txt");
+		int i = 1;
+		do {
+//			textMain.get(i);
+
 			//コンソール表示入力
 			String console = scan.nextLine();
-			
-			if (textMain.get(i).contains("pn")) {
-				System.out.println(textMain.get(i).replace("pn", playerList.get(0).getName()) + "↲");
-				continue;
-			}
+
+//			if (textMain.get(i).contains("pn")) {
+				textMain.get(i).replace("pn", playerList.get(0).getName());
+//			}
 
 			//バトル敵リスト作成
 			if (textMain.get(i).contains("ec")) {
@@ -123,51 +108,54 @@ public class Main {
 					ecn[j - 1] = Integer.parseInt(ecs[j]);
 				}
 				ArrayList<String> str2List = csvReader.csvReader("enemyList.csv");
-				ecn[0] = (ecn[0] -1) * 8;
+				ecn[0] = (ecn[0] - 1) * 8;
 				enemyCreater.createEnemy(ecn[0], ecn[1], enemyList, str2List);
 				ec = textMain.remove(i);
 			}
 
 			//味方作成
-			if(textMain.get(i).contains("pc")) {
+			if (textMain.get(i).contains("pc")) {
 				String pc = textMain.get(i).replace("pc,", "");
 				int pcn = Integer.parseInt(pc);
 				ArrayList<String> strList4 = csvReader.csvReader("playerList.csv");
-				playerCreater.createPlayer(pcn,playerList, strList4);
+				playerCreater.createPlayer(pcn, playerList, strList4);
 				i += 1;
 				continue;
 			}
-			
+
 			//バトル実行
 			if (textMain.get(i).contains("btl")) {
-				battle.battle(playerList, enemyList, levelUpList,i);
-//				playerList.get(0).setHp(battle.getPlayerDmg());
-//				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-				if(i == 28) {
-					i =29;
+				battle.battle(playerList, enemyList, levelUpList, i);
+				//				playerList.get(0).setHp(battle.getPlayerDmg());
+				//				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
+				if (i == 28) {
+					i = 29;
 					playerList.get(0).setHp(playerList.get(0).getFullhp());
-				}else if(playerList.get(0).getHp() <= 0) {
-						return;
+				} else if (i == 143) {
+					i = 144;
+					playerList.get(0).setHp(playerList.get(0).getFullhp());
+				} else if (playerList.get(0).getHp() <= 0) {
+					return;
 
 				}
 				enemyList.clear();
-				
+
 			}
 			//ステータス表示
 			if (console.equals("s")) {
 				playerList.get(0).showStatus(playerList);
 			}
-			
+
 			//アイテム表示
 			if (console.equals("i")) {
 				playerList.get(0).showItem(playerList);
 			}
-			
+
 			//装備品表示
 			if (console.equals("w")) {
 				playerList.get(0).showWeapon(playerList);
 			}
-			
+
 			//街内移動
 			if (console.equals("t")) {
 				Town t = (Town) playerList.get(0).fields.get(0);
@@ -176,9 +164,11 @@ public class Main {
 
 			//マップ移動
 			if (console.equals("m")) {
-				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList,csvReader, enemyCreater, enemyList, 
-						 levelUpList,i);
-				if(isDead) return;
+				boolean isDead = playerList.get(0).moveField(fields, battle, playerList.get(0), playerList, csvReader,
+						enemyCreater, enemyList,
+						levelUpList, i);
+				if (isDead)
+					return;
 			}
 
 			//シーン移動
@@ -186,10 +176,10 @@ public class Main {
 				String str = textMain.get(i).replace("#", "");
 				i = Integer.parseInt(str);
 			}
-			
+
 			//ウォレット処理
-			if(textMain.get(i).contains("wa")) {
-				String money = textMain.get(i).replace("wa,","");
+			if (textMain.get(i).contains("wa")) {
+				String money = textMain.get(i).replace("wa,", "");
 				int m = Integer.parseInt(money);
 				playerList.get(0).setWallet(playerList.get(0).getWallet() + m);
 				i += 1;
@@ -204,47 +194,40 @@ public class Main {
 					num[j - 1] = Integer.parseInt(s[j]);
 				}
 
-				if (console.equals("0") || console.equals("1")) {
-					int select = Integer.parseInt(console);
-					i = num[(select)];
-				}else {
-					System.out.println("正しい数字を入力してください");
-					i = i -1;
-					continue;
+				while (true) {
+					if (console.equals("0") || console.equals("1")) {
+						int select = Integer.parseInt(console);
+						i = num[(select)];
+						break;
+					} else {
+						System.out.println("正しい数字を入力してください");
+						//					i = i - 2;
+						console = new java.util.Scanner(System.in).nextLine();
+					}
 				}
 			}
 
 			//END
 			if (textMain.get(i).contains("END")) {
 				playerList.get(0).isDead(i);
-					return;
+				try {
+					System.out.println("最初から始めますか？ 0: リスタート 1: 終了>");
+					int n = new java.util.Scanner(System.in).nextInt();
+					if (n == 0)
+						i = 1;
+					else
+						return;
+				} catch (InputMismatchException e) {
+					System.out.println("正しい数字を入力してください");
 				}
-			
-			//			if (playerList.get(0).field instanceof MidField) {
-			//				MidField m = (MidField) playerList.get(0).field;
-			//				int r = playerList.get(0).moveField(m);
-			//				if (r <= 2) {
-			//					battle.battle(playerList.get(0), playerList, enemyList, (Portion) items.get(0), levelUpList);
-			//					playerList.get(0).setHp(battle.getPlayerDmg());
-			//					//				battle.levelUp(playerList.get(0),playerList,levelUpList);
-			//					if (playerList.get(0).getHp() <= 0) {
-			//						return;
-			//					}
-			//				}
-			//			}
+			}
 
+			if (textMain.get(i).contains("pn")) {
+				textMain.get(i).replace("pn", playerList.get(0).getName());
+			}
 			System.out.println(textMain.get(i) + "↲");
-			//テキスト行間用
-			//			String waitEnter = scan.nextLine();
-			//			if(waitEnter.equals("\n"));
-
-	}
-		//会話選択
-		//		int s = player.talk(enemy1.name);
-		//		if (s == 0)
-		//			System.out.println(textMain.get(2));
-		//		else if (s == 1)
-		//			System.out.println(textMain.get(3));
+			i++;
+		} while (true);
 
 		/*
 			ダガーを装備
@@ -261,6 +244,5 @@ public class Main {
 		 */
 
 	}
-
 
 }
