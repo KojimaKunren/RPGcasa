@@ -72,7 +72,6 @@ public class Main {
 		shopItemList.add(0, portion);
 		shopItemList.add(1, hiportion);
 		shopItemList.add(2, blessingWater);
-		
 
 		//Start	
 		while (true) {
@@ -89,16 +88,16 @@ public class Main {
 		//テキスト読み込み
 		textReader.textReader(textMain, "textMain.txt");
 
-		for(int i = 0; i < textMain.size(); i++) {
-//			textMain.get(i);
-			
+		for (int i = 0; i < textMain.size(); i++) {
+			//			textMain.get(i);
+
 			//コンソール表示入力
 			String console = scan.nextLine();
-			
+
 			if (textMain.get(i).contains("pn")) {
 				textMain.get(i).replace("pn", playerList.get(0).getName());
 			}
-			
+
 			//バトル敵リスト作成
 			if (textMain.get(i).contains("ec")) {
 				String ec = textMain.get(i).replace("ec", "");
@@ -201,12 +200,12 @@ public class Main {
 						break;
 					} else {
 						System.out.println("正しい数字を入力してください");
-											i = i - 1;
+						i = i - 1;
 						console = new java.util.Scanner(System.in).nextLine();
 					}
-//					if (textMain.get(i).contains("pn")) {
-//						textMain.get(i).replace("pn", playerList.get(0).getName());
-//					}
+					//					if (textMain.get(i).contains("pn")) {
+					//						textMain.get(i).replace("pn", playerList.get(0).getName());
+					//					}
 				}
 			}
 
@@ -224,9 +223,10 @@ public class Main {
 					System.out.println("正しい数字を入力してください");
 				}
 			}
-			System.out.println(textMain.get(i) + "↲");;
-		} 
-		
+			System.out.println(textMain.get(i) + "↲");
+			;
+		}
+
 		/*
 			ダガーを装備
 			player.sword = dagger;

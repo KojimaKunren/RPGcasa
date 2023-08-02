@@ -24,8 +24,9 @@ public class Player implements Human {
 	ArrayList<Item> items;
 	ArrayList<Weapon> weapons;
 	ArrayList<String> leveluplist;
-	
-	public Player(String name, String role, int hp, int fullhp, int mp, int fullmp, int atk, int def, int exp, int level, int money) {
+
+	public Player(String name, String role, int hp, int fullhp, int mp, int fullmp, int atk, int def, int exp,
+			int level, int money) {
 		setName(name);
 		setRole(role);
 		setHp(hp);
@@ -38,131 +39,132 @@ public class Player implements Human {
 		setLevel(level);
 		setWallet(this.getWallet() + money);
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getRole() {
 		return this.role;
 	}
-	
+
 	public void setRole(String role) {
 		this.role = role;
 	}
-	
+
 	public int getHp() {
 		return this.hp;
 	}
-	
+
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
-	
+
 	public int getFullhp() {
 		return this.fullhp;
 	}
-	
+
 	public void setFullhp(int fullhp) {
 		this.fullhp = fullhp;
 	}
-	
+
 	public int getMp() {
 		return this.mp;
 	}
-	
+
 	public void setMp(int mp) {
 		this.mp = mp;
 	}
-	
+
 	public int getFullmp() {
 		return this.fullmp;
 	}
-	
+
 	public void setFullmp(int fullmp) {
 		this.fullmp = fullmp;
 	}
-	
+
 	public int getAtk() {
 		return this.atk;
 	}
-	
+
 	public void setAtk(int atk) {
 		this.atk = atk;
 	}
-	
+
 	public int getDef() {
 		return this.def;
 	}
-	
+
 	public void setDef(int def) {
 		this.def = def;
 	}
-	
+
 	public int getExp() {
 		return this.exp;
 	}
-	
+
 	public void setExp(int exp) {
 		this.exp = exp;
 	}
-	
+
 	public int getLevel() {
 		return this.level;
 	}
-	
+
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
+
 	public int getMoney() {
 		return this.money;
 	}
-	
+
 	public void setMoney(int money) {
 		this.money = money;
 	}
-	
+
 	public int getWallet() {
 		return this.wallet;
 	}
-	
+
 	public void setWallet(int money) {
 		this.wallet = money;
 	}
-	
+
 	public Weapon getSword() {
 		return this.sword;
 	}
-	
+
 	//通常攻撃メソッド
-	public static int attack(Player player,Enemy enemy) {
+	public static int attack(Player player, Enemy enemy) {
 		int dmg = 0;
-		if(player.sword == null) {
-		dmg = player.getAtk() - enemy.getDef();
-		}else {
+		if (player.sword == null) {
+			dmg = player.getAtk() - enemy.getDef();
+		} else {
 			dmg = (player.getAtk() + player.sword.getPower()) - enemy.getDef();
 		}
-		
+
 		int value = new java.util.Random().nextInt(6);
-		
+
 		if (value != 0 && dmg > 0) {
 			enemy.setHp(enemy.getHp() - dmg);
 		}
-		if(dmg > 0) {
-		System.out.printf("%sの攻撃! %sに%dのダメージを与えた\n\n",player.getName(),enemy.getName(),dmg);
-		}else if(dmg <= 0)System.out.printf("%sの攻撃! %sにダメージを与えられなかった\n\n",player.getName(),enemy.getName());
+		if (dmg > 0) {
+			System.out.printf("%sの攻撃! %sに%dのダメージを与えた\n\n", player.getName(), enemy.getName(), dmg);
+		} else if (dmg <= 0)
+			System.out.printf("%sの攻撃! %sにダメージを与えられなかった\n\n", player.getName(), enemy.getName());
 		return enemy.getHp();
 	}
-	
+
 	//特殊攻撃メソッド
-	public static int specialAttack(Player player,Enemy enemy) {
+	public static int specialAttack(Player player, Enemy enemy) {
 		int dmg = 0;
-		if(player.getMp() >= 10) {
+		if (player.getMp() >= 10) {
 			if (player.sword == null) {
 				dmg = (player.getAtk() * 2) - enemy.getDef();
 				player.setMp(player.getMp() - 10);
@@ -171,31 +173,32 @@ public class Player implements Human {
 				player.setMp(player.getMp() - 10);
 			}
 
-		
-		int value = new java.util.Random().nextInt(6);
-		
-		if (value != 0 && dmg > 0) {
-			enemy.setHp(enemy.getHp() - dmg);
+			int value = new java.util.Random().nextInt(6);
+
+			if (value != 0 && dmg > 0) {
+				enemy.setHp(enemy.getHp() - dmg);
 			}
-		}else System.out.println("MPが足りません");
-		if(dmg > 0) {
-			System.out.printf("%sの攻撃! %sに%dのダメージを与えた\n\n",player.getName(),enemy.getName(),dmg);
-		}else if(dmg <= 0)System.out.printf("%sの攻撃! %sにダメージを与えられなかった\n\n",player.getName(),enemy.getName());
+		} else
+			System.out.println("MPが足りません");
+		if (dmg > 0) {
+			System.out.printf("%sの攻撃! %sに%dのダメージを与えた\n\n", player.getName(), enemy.getName(), dmg);
+		} else if (dmg <= 0)
+			System.out.printf("%sの攻撃! %sにダメージを与えられなかった\n\n", player.getName(), enemy.getName());
 		return enemy.getHp();
 	}
-	
+
 	//GameOver判定
 	public int isDead(int lineNum) {
 		int r = 0;
-		if(lineNum == 28) {
+		if (lineNum == 28) {
 			r = 1;
-		}else {
-//		boolean isEnd = true;
-		System.out.println("\nGAME OVER\n物語はまだはじまらない…");
+		} else {
+			//		boolean isEnd = true;
+			System.out.println("\nGAME OVER\n物語はまだはじまらない…");
 		}
 		return r;
 	}
-	
+
 	//会話メソッド
 	public int talk(String name) {
 		System.out.println(name + "に話しかけますか");
@@ -204,23 +207,26 @@ public class Player implements Human {
 		return select;
 
 	}
-	
+
 	//ステータス表示メソッド
 	public void showStatus(ArrayList<Player> playerList) {
-//		try {
+		//		try {
 		for (int i = 0; i < playerList.size(); i++) {
-			System.out.println("プレイヤー名: " + playerList.get(i).getName() + " 職業: " + playerList.get(i).getRole() + "\nHP: " + playerList.get(i).getHp() + "/"
+			System.out.println("プレイヤー名: " + playerList.get(i).getName() + " 職業: " + playerList.get(i).getRole()
+					+ "\nHP: " + playerList.get(i).getHp() + "/"
 					+ playerList.get(i).getFullhp()
-					+ " MP: " + playerList.get(i).getMp() + "/" + playerList.get(i).getFullmp() + "\n攻撃力: " + playerList.get(i).getAtk() + " 防御力: "
+					+ " MP: " + playerList.get(i).getMp() + "/" + playerList.get(i).getFullmp() + "\n攻撃力: "
+					+ playerList.get(i).getAtk() + " 防御力: "
 					+ playerList.get(i).getDef() + "\nレベル: "
-					+ playerList.get(i).getLevel() + " 経験値: " + playerList.get(i).getExp() + "\n" + "現在地: " + playerList.get(0).field.getName() + "\n");
+					+ playerList.get(i).getLevel() + " 経験値: " + playerList.get(i).getExp() + "\n" + "現在地: "
+					+ playerList.get(0).field.getName() + "\n");
 		}
-//		}catch(NullPointerException e) {
-//			;
-//		}
+		//		}catch(NullPointerException e) {
+		//			;
+		//		}
 
 	}
-	
+
 	//装備品表示メソッド
 	public void showWeapon(ArrayList<Player> playerList) {
 		do {
@@ -229,7 +235,7 @@ public class Player implements Human {
 					System.out.println((i + 1) + ": " + playerList.get(0).weapons.get(i).getName() + "×"
 							+ playerList.get(0).weapons.get(i).getNum());
 				}
-			}else {
+			} else {
 				System.out.println("装備できる武器がありません\n");
 				break;
 			}
@@ -238,40 +244,44 @@ public class Player implements Human {
 			int select = new java.util.Scanner(System.in).nextInt() - 1;
 			if (select == 99)
 				break;
-			if(select >= weapons.size()) {
+			if (select >= weapons.size()) {
 				System.out.println("正しい数字を入力してください");
 				continue;
 			}
-			System.out.printf("%sを誰に装備しますか>\n",playerList.get(0).weapons.get(select).getName());
-			for(int i = 0; i < playerList.size(); i++) {
+			System.out.printf("%sを誰に装備しますか>\n", playerList.get(0).weapons.get(select).getName());
+			for (int i = 0; i < playerList.size(); i++) {
 				System.out.println(i + ":" + playerList.get(i).getName());
 			}
 			int select2 = new java.util.Scanner(System.in).nextInt();
-			
+
 			if (playerList.get(0).weapons.get(select) instanceof Sword) {
 				playerList.get(select2).sword = (Sword) weapons.get(select);
-				System.out.printf("%sを装備しました\n",playerList.get(0).weapons.get(select).getName());
+				System.out.printf("%sを装備しました\n", playerList.get(0).weapons.get(select).getName());
 				playerList.get(0).weapons.get(select).setNum(playerList.get(0).weapons.get(select).getNum() - 1);
-			}else { System.out.println("現在装備できません");
+			} else {
+				System.out.println("現在装備できません");
 			}
 			if (playerList.get(0).weapons.get(select) instanceof Sield) {
 				playerList.get(select2).sield = (Sield) weapons.get(select);
-				System.out.printf("%sを装備しまし\n",playerList.get(0).weapons.get(select).getName());
+				System.out.printf("%sを装備しまし\n", playerList.get(0).weapons.get(select).getName());
 				playerList.get(0).weapons.get(select).setNum(playerList.get(0).weapons.get(select).getNum() - 1);
-			} else {{ System.out.println("現在装備できません");
+			} else {
+				{
+					System.out.println("現在装備できません");
+				}
+				if (playerList.get(0).weapons.get(select) instanceof Armor) {
+					playerList.get(select2).armor = (Armor) weapons.get(select);
+					System.out.printf("%sを装備しました\n", playerList.get(0).weapons.get(select).getName());
+					playerList.get(0).weapons.get(select).setNum(playerList.get(0).weapons.get(select).getNum() - 1);
+				} else {
+					System.out.println("現在装備できません");
+				}
 			}
-			if (playerList.get(0).weapons.get(select) instanceof Armor) {
-				playerList.get(select2).armor = (Armor) weapons.get(select);
-				System.out.printf("%sを装備しました\n",playerList.get(0).weapons.get(select).getName());
-				playerList.get(0).weapons.get(select).setNum(playerList.get(0).weapons.get(select).getNum() - 1);
-			} else { System.out.println("現在装備できません");
-			}
-			}
-			
+
 			System.out.println("");
 		} while (true);
 	}
-	
+
 	//支払い
 	public void payMoney(Player player, int money) {
 		if (money <= this.getWallet()) {
@@ -281,7 +291,7 @@ public class Player implements Human {
 			System.out.println("お金が足りません");
 		}
 	}
-	
+
 	//アイテム表示メソッド
 	public void showItem(ArrayList<Player> playerList) {
 		System.out.println("財布：" + this.getWallet());
@@ -316,7 +326,7 @@ public class Player implements Human {
 			}
 		} while (true);
 	}
-	
+
 	//アイテム使用
 	public void useItem() {
 		if (this.items.size() > 0) {
@@ -326,7 +336,7 @@ public class Player implements Human {
 		} else if (items.size() <= 0)
 			System.out.println("アイテムがありません");
 	}
-					
+
 	//ポーション利用メソッド
 	//※※マジックナンバー利用
 	public void usePortion(ArrayList<Player> playerList, Portion portion) {
@@ -356,7 +366,7 @@ public class Player implements Human {
 	}
 
 	//ポーション処理
-	public boolean recoveryPortion(Player player,ArrayList<Player> playerList,Portion portion) {
+	public boolean recoveryPortion(Player player, ArrayList<Player> playerList, Portion portion) {
 		int r = player.getHp() + portion.getRecover();
 		boolean b = false;
 		if (r < this.getFullhp()) {
@@ -367,16 +377,18 @@ public class Player implements Human {
 			System.out.println("HPがフルになりました\n");
 		}
 		int num = playerList.get(0).items.indexOf(portion);
-		playerList.get(0).items.get(num).setNum(playerList.get(0).items.get(num).getNum()-1);
-		if(playerList.get(0).items.get(num).getNum() == 0) {playerList.get(0).items.remove(num);
-		b = true;
-	}
+		playerList.get(0).items.get(num).setNum(playerList.get(0).items.get(num).getNum() - 1);
+		if (playerList.get(0).items.get(num).getNum() == 0) {
+			playerList.get(0).items.remove(num);
+			b = true;
+		}
 		return b;
 	}
-	
+
 	//フィールド移動メソッド
 	public boolean moveField(ArrayList<Field> fields, Battle battle, Player player, ArrayList<Player> playerList,
-			CsvReader csvreader, EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)
+			CsvReader csvreader, EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,
+			int lineNum)
 			throws IOException {
 		boolean isDead = false;
 		boolean b = false;
@@ -395,63 +407,66 @@ public class Player implements Human {
 					//隣町開発中のための処置
 					//			if(fields.get(select2) instanceof Town){
 					//			System.out.println(fields.get(select2).getName() + "へ入りました\n");
-					switch(select2){
-						case 0:
+					switch (select2) {
+					case 0:
 						System.out.println(fields.get(select2).getName() + "へ入りました\n");
 						break;
-						
-						case 1:
+
+					case 1:
 						System.out.println("開発中です\n\"王都周辺の道\"へ移動します\n");
 						select2 = 2;
 						break;
-						
-						case 2:
+
+					case 2:
 						System.out.println(fields.get(select2).getName() + "へ移動します\n");
-					if (fields.get(select2) instanceof MidField) {
-						MidField mf = (MidField) fields.get(select2);
-						isDead = moveField(mf, battle, player, playerList, csvreader, enemyCreater, enemyList,levelUpList,lineNum);
-					}
+						if (fields.get(select2) instanceof MidField) {
+							MidField mf = (MidField) fields.get(select2);
+							isDead = moveField(mf, battle, player, playerList, csvreader, enemyCreater, enemyList,
+									levelUpList, lineNum);
+						}
 						break;
 					default:
 					}
 					this.field = fields.get(select2);
 					b = true;
 					break;
-				} else System.out.println("正しい数字を入力してください");
+				} else
+					System.out.println("正しい数字を入力してください");
 			} catch (InputMismatchException e) {
 				System.out.println("正しい数字を入力してください");
 			}
 		} while (!b);
 		return isDead;
 	}
-	
+
 	//フィールド移動中のメソッド
-	public boolean moveField(MidField mf,Battle battle,Player player, ArrayList<Player> playerList, CsvReader csvReader,EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,int lineNum)throws IOException{
+	public boolean moveField(MidField mf, Battle battle, Player player, ArrayList<Player> playerList,
+			CsvReader csvReader, EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,
+			int lineNum) throws IOException {
 		int dis = mf.getDistance();
 		int r = 0;
 		boolean isDead = false;
-		
-		loop:
-		do {
+
+		loop: do {
 			System.out.println("あと" + dis + "で次の街に着きます。サイコロを振ってください>");
-			System.out.println("");			
+			System.out.println("");
 			r = new java.util.Random().nextInt(6) + 1;
 			if (r <= 2) {
 				ArrayList<String> str2List = csvReader.csvReader("enemyList.csv");
 				int[] nums = new int[4];
-				
-				nums[2] = new java.util.Random().nextInt(1) + 1 ;
+
+				nums[2] = new java.util.Random().nextInt(1) + 1;
 				nums[3] = new java.util.Random().nextInt(1) + 1;
-				nums[0] = 4; 
+				nums[0] = 4;
 				nums[1] = 5;
-				enemyCreater.randomCreateEnemy(nums[0],nums[2],enemyList, str2List);
-				enemyCreater.randomCreateEnemy(nums[1],nums[3],enemyList, str2List);
-				battle.battle(playerList, enemyList, levelUpList,lineNum);
+				enemyCreater.randomCreateEnemy(nums[0], nums[2], enemyList, str2List);
+				enemyCreater.randomCreateEnemy(nums[1], nums[3], enemyList, str2List);
+				battle.battle(playerList, enemyList, levelUpList, lineNum);
 				playerList.get(0).setHp(battle.getPlayerDmg());
 				//				battle.levelUp(playerList.get(0),playerList,levelUpList);
 				if (playerList.get(0).getHp() <= 0) {
 					isDead = true;
-				} 
+				}
 				break loop;
 			}
 			dis -= r;
@@ -460,7 +475,7 @@ public class Player implements Human {
 				break;
 			}
 		} while (dis > 0);
-		
+
 		return isDead;
 	}
 }
