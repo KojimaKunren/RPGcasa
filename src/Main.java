@@ -166,6 +166,11 @@ public class Main {
 				if (isDead)
 					return;
 			}
+			
+			//コマンド表示
+			if (console.equals("q")) {
+				System.out.println("ステータス表示「s」アイテム表示「i」 装備品表示「w」\n 街中移動「t」 マップ移動「m」\n");
+			}
 
 			//シーン移動
 			if (textMain.get(i).contains("#")) {
