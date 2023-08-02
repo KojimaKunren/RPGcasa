@@ -93,10 +93,7 @@ public class Main {
 
 			//コンソール表示入力
 			String console = scan.nextLine();
-
-			if (textMain.get(i).contains("pn")) {
-				textMain.get(i).replace("pn", playerList.get(0).getName());
-			}
+			
 
 			//バトル敵リスト作成
 			if (textMain.get(i).contains("ec")) {
@@ -223,10 +220,26 @@ public class Main {
 					System.out.println("正しい数字を入力してください");
 				}
 			}
+			
+			if (textMain.get(i).contains("pn")) {
+				textMain.set(i,textMain.get(i).replace("pn", playerList.get(0).getName()));
+			}
+			
 			System.out.println(textMain.get(i) + "↲");
-			;
 		}
 
+//		public boolean equals(Object o) {
+//			if(this == 0) {
+//				return true;
+//			}
+//			if(o instanceof String) {
+//				String s = (String)o;
+//				if(textMain.equals(pn)) {
+//					return true;
+//				}
+//			}
+//			return false;
+//		}
 		/*
 			ダガーを装備
 			player.sword = dagger;

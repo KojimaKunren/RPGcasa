@@ -20,10 +20,10 @@ public class Battle {
 			try {
 				for (int i = 0; i < playerList.size(); i++) {
 					System.out.println("\n----------------------------------------------------------------------");
-					if(playerList.get(i).getHp() >= 0)
-					System.out.printf("\n\n%sの攻撃", playerList.get(i).getName());
-				System.out.printf("\n1:攻撃 2;魔法 3:防御 4:アイテム 5:ステータス 6:退却>");
-				int select = new java.util.Scanner(System.in).nextInt();
+					if (playerList.get(i).getHp() >= 0)
+						System.out.printf("\n\n%sの攻撃", playerList.get(i).getName());
+					System.out.printf("\n1:攻撃 2;魔法 3:防御 4:アイテム 5:ステータス 6:退却>");
+					int select = new java.util.Scanner(System.in).nextInt();
 					switch (select) {
 					case 1:
 						System.out.printf("\n1:通常攻撃 2:特殊攻撃>");
@@ -42,13 +42,13 @@ public class Battle {
 							this.playerDmg = playerList.get(i).getHp();
 						}
 
-//						for(int j = 0; j < playerList.size(); j++) {
-//						System.out.printf("♠%s HP%d MP%d\n", playerList.get(j).getName(), playerList.get(j).getHp(),
-//								playerList.get(j).getMp());
-//						}
-//						for (int j = 0; j < enemies.size(); j++) {
-//							System.out.printf(" *%s HP%d ", enemies.get(j).getName(), enemies.get(j).getHp());
-//						}
+						//						for(int j = 0; j < playerList.size(); j++) {
+						//						System.out.printf("♠%s HP%d MP%d\n", playerList.get(j).getName(), playerList.get(j).getHp(),
+						//								playerList.get(j).getMp());
+						//						}
+						//						for (int j = 0; j < enemies.size(); j++) {
+						//							System.out.printf(" *%s HP%d ", enemies.get(j).getName(), enemies.get(j).getHp());
+						//						}
 						break;
 
 					case 2:
@@ -82,13 +82,13 @@ public class Battle {
 							System.out.println("MPが足りません\n");
 						}
 
-//						for(int j = 0; j < playerList.size(); j++) {
-//							System.out.printf("♠%s HP%d MP%d\n", playerList.get(j).getName(), playerList.get(j).getHp(),
-//									playerList.get(j).getMp());
-//							}
-//						for (int j = 0; j < enemies.size(); j++) {
-//							System.out.printf(" *%s HP%d\n\n", enemies.get(j).getName(), enemies.get(j).getHp());
-//						}
+						//						for(int j = 0; j < playerList.size(); j++) {
+						//							System.out.printf("♠%s HP%d MP%d\n", playerList.get(j).getName(), playerList.get(j).getHp(),
+						//									playerList.get(j).getMp());
+						//							}
+						//						for (int j = 0; j < enemies.size(); j++) {
+						//							System.out.printf(" *%s HP%d\n\n", enemies.get(j).getName(), enemies.get(j).getHp());
+						//						}
 						System.out.println("");
 						break;
 
@@ -99,14 +99,14 @@ public class Battle {
 						if (def >= 0) {
 							playerList.get(i).setHp(playerList.get(i).getHp() - def);
 							this.playerDmg = playerList.get(i).getHp();
-//							
-//							for(int j = 0; j < playerList.size(); j++) {
-//								System.out.printf("♠%s HP%d MP%d\n", playerList.get(j).getName(), playerList.get(j).getHp(),
-//										playerList.get(j).getMp());
-//								}
-//							for (int j = 0; j < enemies.size(); j++) {
-//								System.out.printf(" *%s HP%d\n\n", enemies.get(j).getName(), enemies.get(j).getHp());
-//							}
+							//							
+							//							for(int j = 0; j < playerList.size(); j++) {
+							//								System.out.printf("♠%s HP%d MP%d\n", playerList.get(j).getName(), playerList.get(j).getHp(),
+							//										playerList.get(j).getMp());
+							//								}
+							//							for (int j = 0; j < enemies.size(); j++) {
+							//								System.out.printf(" *%s HP%d\n\n", enemies.get(j).getName(), enemies.get(j).getHp());
+							//							}
 						} else if (def < 0)
 							;
 						this.playerDmg = 0;
@@ -130,22 +130,22 @@ public class Battle {
 						System.out.printf("別の番号を入力してください>");
 					}
 
-					for(int j = 0; j < playerList.size(); j++) {
+					for (int j = 0; j < playerList.size(); j++) {
 						System.out.printf("♠%s HP%d MP%d\t", playerList.get(j).getName(), playerList.get(j).getHp(),
 								playerList.get(j).getMp());
-							for(int k = 1; k < playerList.size(); k++) {
-								if(playerList.get(k).getHp() <= 0) {
-									System.out.printf("%sは倒れた",playerList.get(k).getName());
-								}
+						for (int k = 1; k < playerList.size(); k++) {
+							if (playerList.get(k).getHp() <= 0) {
+								System.out.printf("%sは倒れた", playerList.get(k).getName());
 							}
 						}
+					}
 					System.out.println("");
 					for (int j = 0; j < enemies.size(); j++) {
 						System.out.printf(" *%s HP%d\t", enemies.get(j).getName(), enemies.get(j).getHp());
 					}
-					
+
 					System.out.println("\n----------------------------------------------------------------------");
-					
+
 					if (playerList.get(0).getHp() <= 0) {
 						System.out.println("\n戦闘に負けてしまった");
 						int judgeResult = playerList.get(0).isDead(lineNum);
