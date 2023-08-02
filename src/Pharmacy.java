@@ -61,7 +61,6 @@ public class Pharmacy extends Shop {
 					continue;
 				}
 				//商品の処理;
-//				boolean b = playerList.get(0).items.contains(this.items.get(selectItem).getName());
 				boolean b = playerList.get(0).items.contains(this.items.get(selectItem));
 				String s = this.items.get(selectItem).getName();
 				if (b) {

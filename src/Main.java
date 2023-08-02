@@ -91,7 +91,7 @@ public class Main {
 
 		for(int i = 0; i < textMain.size(); i++) {
 //			textMain.get(i);
-
+			
 			//コンソール表示入力
 			String console = scan.nextLine();
 			
