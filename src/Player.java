@@ -314,7 +314,11 @@ public class Player implements Human {
 					if (playerList.get(0).items.get(select) instanceof Portion) {
 						Portion p = (Portion) playerList.get(0).items.get(select);
 						playerList.get(0).usePortion(playerList, p);
-					} else
+					} else if(playerList.get(0).items.get(select) instanceof BlessingWater) {
+						BlessingWater bw = (BlessingWater)playerList.get(0).items.get(select);
+						playerList.get(0).useRecoveryItem(playerList, bw);
+					}else 
+						
 						System.out.println("正しい数字を入力してください");
 					System.out.println("");
 				} catch (InputMismatchException e) {
@@ -385,6 +389,34 @@ public class Player implements Human {
 		return b;
 	}
 
+	//リカバリーアイテム利用メソッド
+	//※※マジックナンバー利用
+	public void useRecoveryItem(ArrayList<Player> playerList, Item item) {
+		boolean b = false;
+		do {
+			System.out.printf("誰に%sを使いますか。使用しない場合は「0」を入力>\n", item.getName());
+			for (int i = 0; i < playerList.size(); i++) {
+				System.out.println((i + 1) + ": " + playerList.get(i).getName());
+			}
+			int select = new java.util.Scanner(System.in).nextInt();
+			if (select == 0)
+				break;
+			select -= 1;
+			if (select > playerList.size()) {
+				System.out.println("正しい数字を入力してください");
+				continue;
+			}
+			if (playerList.get(select).getMp() < playerList.get(select).getFullmp()) {
+				b = ((BlessingWater) item).recoveryBlessingWater(playerList.get(select), playerList, item);
+				//				System.out.printf("%sのHPが回復しました。HP: %d\n\n", playerList.get(select).getName(),
+				//						playerList.get(select).getHp());
+			} else if (playerList.get(select).getFullmp() >= playerList.get(select).getMp()) {
+				System.out.println("MPはフルです");
+			}
+
+		} while (!b);
+	}
+	
 	//フィールド移動メソッド
 	public boolean moveField(ArrayList<Field> fields, Battle battle, Player player, ArrayList<Player> playerList,
 			CsvReader csvreader, EnemyCreater enemyCreater, ArrayList<Enemy> enemyList, ArrayList<String> levelUpList,
